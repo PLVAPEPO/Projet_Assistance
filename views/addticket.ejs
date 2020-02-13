@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Les tickets</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h1>TICKETS</h1>
+    <p>Welcome to TICKETS</p>
+
+    <div>
+      <h1><a href="/">Accueil</a></h1>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div id="formAdd" class="col s12">
+            <h1 class="header">Add a Ticket</h1>
+            <form action="/addticket/confirm" method="GET">
+                <div class="input-field col s6">
+                    <label for="title">Ticket Title</label><br>
+                    <input placeholder="I have a problem plz help me" name="title" type="text" class="validate" required>
+                </div>
+                <div class="input-field col s6">
+                    <label for="priority">Priority</label><br>
+                    <input placeholder="My priority is over nine THOUSAND!!!" name="priority" type="number" class="validate" required>
+                </div>
+                <button class="waves-effect waves-light btn green greener-4" type="submit" name="action">
+                        <i class="material-icons left">add_box</i>Ajouter un ticket
+                </button>
+            </form>
+        </div>
+    </div>
+  </body>
+</html>
