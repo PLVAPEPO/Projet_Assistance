@@ -10,16 +10,13 @@
 </head>
 
 <body>
-  <h1>TICKETS</h1>
-  <p>Welcome to TICKETS</p>
+  <h1>Vue globale des billets</h1>
+  <p>Cette interface offre une vue globale des billets</p>
+  <p><a href="/">Revenir à l'Accueil</a></p>
 
-  <div>
-    <h1><a href="/">Accueil</a></h1>
-  </div>
-
-  <div class="container">
+  <!-- <div class="container"> -->
     <div class="row">
-      <h1 class="header">Tickets</h1>
+      <h3 class="header">Billets</h3>
       <table id="billets" class="centered responsive-table highlight">
         <thead>
           <tr>
@@ -46,8 +43,8 @@
             <% } else if (billet.ETATBILLET == 1) { %>
             <td>Affecté</td>
             <% } else if (billet.ETATBILLET == 1) { %>
-              <td>Terminé</td>
-              <% } %>
+            <td>Terminé</td>
+            <% } %>
           </tr>
           <% }); %>
         </tbody>
@@ -56,7 +53,7 @@
     <div class="row">
       <a href="/addticket" class="btn green">Ajouter un ticket</a>
     </div>
-  </div>
+  <!-- </div> -->
 </body>
 
 </html>
