@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Les tickets</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <h1>TICKETS</h1>
+  <p>Welcome to TICKETS</p>
+
+  <div>
+    <h1><a href="/">Accueil</a></h1>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <h1 class="header">Tickets</h1>
+      <table id="billets" class="centered responsive-table highlight">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Titre du billet</th>
+            <th>Priorité</th>
+            <th>Date de création du billet</th>
+            <th>Détails</th>
+            <th>Etat du billet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% billets.forEach(function(billet) { %>
+          <tr>
+            <td><%= billet.IDBILLET %></td>
+            <td><%= billet.TITREBILLET %></td>
+            <td><%= billet.URGENCEBILLET %></td>
+            <td><%= billet.DATECREATIONBILLET.toDateString() %></td>
+            <td>
+              <a href="/billets/" class="waves-effect waves-light btn green"><i class="material-icons">zoom_in</i> </a>
+            </td>
+            <% if (billet.ETATBILLET == 0) { %>
+            <td>Non affecté</td>
+            <% } else if (billet.ETATBILLET == 1) { %>
+            <td>Affecté</td>
+            <% } else if (billet.ETATBILLET == 1) { %>
+              <td>Terminé</td>
+              <% } %>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <a href="/addticket" class="btn green">Ajouter un ticket</a>
+    </div>
+  </div>
+</body>
+
+</html>
