@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 
 router.get("/confirm",function(req, res) {
 	console.log(req.query);
-	con.query('INSERT INTO ticket SET ?', { 'title': req.query.title, 'priority': req.query.priority},
+	con.query('INSERT INTO BILLET SET ?', { 'TITREBILLET': req.query.title, 'URGENCEBILLET': req.query.priority},
 	 (err,rows) => {
 		if(err) throw err;
 		res.redirect('/tickets');

@@ -31,9 +31,9 @@
               <tbody>
                   <% tickets.forEach(function(ticket) { %>
                   <tr>
-                      <td><%= ticket.id %></td>
-                      <td><%= ticket.title %></td>
-                      <td><%= ticket.priority %></td>
+                      <td><%= ticket.IDBILLET %></td>
+                      <td><%= ticket.TITREBILLET %></td>
+                      <td><%= ticket.URGENCEBILLET %></td>
                       <td>
                           <a href="/ticket/<%= ticket.id %>" class="waves-effect waves-light btn blue blueen-4"><i class="material-icons">description</i></a>
                       </td>
