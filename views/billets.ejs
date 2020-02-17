@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Les tickets</title>
+  <title>Vue globale des billets</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -15,44 +15,44 @@
   <p><a href="/">Revenir à l'Accueil</a></p>
 
   <!-- <div class="container"> -->
-    <div class="row">
-      <h3 class="header">Billets</h3>
-      <table id="billets" class="centered responsive-table highlight">
-        <thead>
+  <div class="row">
+    <h3 class="header">Billets</h3>
+    <table id="billets" class="centered responsive-table highlight">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Titre du billet</th>
+          <th>Priorité</th>
+          <th>Date de création du billet</th>
+          <th>Détails</th>
+          <th>Etat du billet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% billets.forEach(function(billet) {%>
           <tr>
-            <th>Id</th>
-            <th>Titre du billet</th>
-            <th>Priorité</th>
-            <th>Date de création du billet</th>
-            <th>Détails</th>
-            <th>Etat du billet</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% billets.forEach(function(billet) { %>
-          <tr>
-            <td><%= billet.IDBILLET %></td>
-            <td><%= billet.TITREBILLET %></td>
-            <td><%= billet.URGENCEBILLET %></td>
-            <td><%= billet.DATECREATIONBILLET.toDateString() %></td>
-            <td>
-              <a href="/billets/" class="waves-effect waves-light btn green"><i class="material-icons">zoom_in</i> </a>
-            </td>
-            <% if (billet.ETATBILLET == 0) { %>
-            <td>Non affecté</td>
-            <% } else if (billet.ETATBILLET == 1) { %>
-            <td>Affecté</td>
-            <% } else if (billet.ETATBILLET == 1) { %>
-            <td>Terminé</td>
-            <% } %>
-          </tr>
-          <% }); %>
-        </tbody>
-      </table>
-    </div>
-    <div class="row">
-      <a href="/addticket" class="btn green">Ajouter un ticket</a>
-    </div>
+          <td><%= billet.IDBILLET %></td>
+          <td><%= billet.TITREBILLET %></td>
+          <td><%= billet.URGENCEBILLET %></td>
+          <td><%= billet.DATECREATIONBILLET.toDateString() %></td>
+          <td>
+            <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn blue"><i class="material-icons">zoom_in</i> </a>
+          </td>
+          <% if (billet.ETATBILLET == 0) { %>
+          <td class="red">Non affecté</td>
+          <% } else if (billet.ETATBILLET == 1) { %>
+          <td class="white">Affecté</td>
+          <% } else if (billet.ETATBILLET == 2) { %>
+          <td class="green">Terminé</td>
+          <% } %>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <a href="/addticket" class="btn blue">Ajouter un ticket</a>
+  </div>
   <!-- </div> -->
 </body>
 

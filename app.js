@@ -25,6 +25,7 @@ app.use(session({
 }))
 
 var LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport')
 
 passport.use(new LocalStrategy(
   { usernameField: 'email' },
@@ -44,7 +45,7 @@ passport.use(new LocalStrategy(
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var billetsRouter = require('./routes/billets');
-var ticketRouter = require('./routes/ticket');
+var billetRouter = require('./routes/billet');
 var addTicketRouter = require('./routes/addticket');
 
 // view engine setup
@@ -59,7 +60,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/billets', billetsRouter);
-app.use('/ticket', ticketRouter);
+app.use('/billet', billetRouter);
 app.use('/addticket', addTicketRouter);
 
 // catch 404 and forward to error handler
@@ -77,8 +78,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
 
 var login = function(req, res) {
   req.session.connected=true;
