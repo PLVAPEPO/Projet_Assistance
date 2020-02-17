@@ -10,7 +10,7 @@ router.get('/:id', function(req, res) {
 	  });
 });
 
-router.get('/delete/:id', function(req, res) {
+router.delete('/:id', function(req, res) {
 	con.query('DELETE FROM BILLET WHERE IDBILLET = ?', req.params.id, (err,rows) => {
 		if(err) throw err;
 		res.redirect('/tickets');

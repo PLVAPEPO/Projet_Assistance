@@ -38,7 +38,10 @@
                           <a href="/ticket/<%= ticket.id %>" class="waves-effect waves-light btn blue blueen-4"><i class="material-icons">description</i></a>
                       </td>
                       <td>
-                          <a href="/ticket/delete/<%= ticket.id %>" class="waves-effect waves-light btn red darken-4"><i class="material-icons">delete_forever</i></a>
+                        <form action="/ticket/<%= ticket.IDBILLET %>?_method=DELETE" method="post">
+                          <input type="hidden" id="idbillet" name="idbillet" value="<%= ticket.IDBILLET %>">
+                          <button type="submit" class="waves-effect waves-light btn red darken-4"><i class="material-icons">delete_forever</i></button>
+                        </form>
                       </td>
                   </tr>
                   <% }); %>
