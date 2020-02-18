@@ -4,15 +4,11 @@ var app = express()
 var createError = require('http-errors');
 var session = require('express-session')
 var path = require('path');
-<<<<<<< HEAD
-var helmet = require('helmet');
+var HELMET = require('helmet');
 var methodOverride = require('method-override');
-var cookieParser = require('cookie-parser');
-=======
 
 var HELMET = require('helmet');
 app.use(HELMET());
->>>>>>> aac2c4fcbf268d49031b0586f5a32a468f275c75
 var logger = require('morgan');
 app.use(logger('dev'));
 
