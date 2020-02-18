@@ -13,8 +13,8 @@
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
   <p>
     <a href="/" class="waves-effect waves-light btn blue">Revenir à l'Accueil</a>
-    <a href="/" class="waves-effect waves-light btn blue">Prendre en charge le ticket</a>
-    <a href="/" class="waves-effect waves-light btn blue">Refuser le ticket</a>
+    <a href="/" class="waves-effect waves-light btn blue">Prendre en charge le billet</a>
+    <a href="/" class="waves-effect waves-light btn blue">Refuser le billet</a>
 
   </p>
 
@@ -58,7 +58,8 @@
       <% if (!billet[0].URGENCEBILLET) { %>
       <td>Pas de pièce jointe</td>
       <% } else  {%>
-      <td><%= billet[0].PIECEJOINTEBILLET%></td>
+      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
+      <td>EN COURS DE REALISATION</td>
       <% } %>
     </tr>
   </table>
