@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Vue globale des billets</title>
+  <title>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -10,11 +10,13 @@
 </head>
 
 <body>
-  <h1>Vue globale des billets</h1>
-  <p>Cette interface offre une vue globale des billets</p>
-  <p><a href="/">Revenir à l'Accueil</a></p>
+  <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
+  <p>
+    <a href="/" class="waves-effect waves-light btn blue">Revenir à l'Accueil</a>
+    <a href="/" class="waves-effect waves-light btn blue">Prendre en charge le ticket</a>
+    <a href="/" class="waves-effect waves-light btn blue">Refuser le ticket</a>
 
-  <p> L'id du billet est : <%= billet[0].IDBILLET %></p>
+  </p>
 
   <table style="width:100%">
     <!-- <tr>
@@ -41,7 +43,7 @@
       <% if (!billet[0].URGENCEBILLET) { %>
       <td class="center">Non renseigné</td>
       <% } else  {%>
-      <td class="center"><%= billet[0].URGENCEBILLET %></td>
+      <td class="center"><%= billet[0].URGENCEBILLET %>/5</td>
       <% } %>
     </tr>
     <tr>
