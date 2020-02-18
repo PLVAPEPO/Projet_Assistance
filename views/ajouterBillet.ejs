@@ -6,6 +6,8 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="../public/stylesheets/style.css">
+
   <meta charset="UTF-8">
 </head>
 
@@ -18,36 +20,40 @@
         class="material-icons left">keyboard_arrow_left</i>Retourner à l'Accueil</a>
   </div>
 
-  <div id="formAdd" class="col">
-    <form action="/addticket" method="GET">
+  <div id="formAjout" class="col">
+    <form action="/ajouterBillet" method="POST">
       <div class="input-field">
-        <label for="title">Titre du billet</label><br>
-        <input placeholder="Exemple : Souris débranchée en D361." name="title" type="text" class="validate" required>
+        <label for="titreBillet">Titre du billet</label><br>
+        <input placeholder="Exemple : Souris débranchée en D361." name="titreBillet" type="text" class="validate" data-length="120"  id="input_text"
+          required>
       </div>
+
       <div class="input-field">
         <label for="urgenceBillet">Urgence du billet (entre 1 et 5)</label><br>
         <input placeholder="Exemple : 1 pour un problème mineur, 5 pour un problème majeur." name="urgenceBillet"
           type="number" class="validate" min="1" max="5" required>
       </div>
+
       <div class="input-field">
         <label for="messageBillet">Commentaire</label><br>
         <textarea class="materialize-textarea validate" name="messageBillet" cols="30" rows="20"
           placeholder="Spécifiez en quelques lignes le problême."></textarea>
       </div>
-      <!-- <div class="input-field">
+
+      <div class="input-field">
         <label for="pjBillet">Pièce-jointe</label><br><br>
-        <input name="pjBillet" type="file" class="validate">
-      </div> -->
-      <div class="file-field input-field">
-        <div class="btn blue">
-          <span>Ajouter un pièce-jointe</span>
-          <input type="file">
-        </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text">
-        </div>
+        <input name="pjBillet" type="file" class="validate btn blue">
       </div>
 
+      <div class="input-field">
+        <label for="posteOrdinateur">Poste</label><br><br>
+        <select id="posteOrdinateur" class="dispSelect">
+          <option value="">Veuillez sélectionner un poste</option>
+          <% ordis.forEach(function(ordi) {%>
+          <option value="<%= ordi.IDORDINATEUR %>"><%= ordi.POSTEORDINATEUR %></option>
+          <% }); %>
+        </select>
+      </div>
 
       <button class="waves-effect waves-light btn blue" type="submit" name="action">
         <i class="material-icons left">add_box</i>Ajouter un billet
