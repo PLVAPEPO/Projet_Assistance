@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Les tickets</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h1>TICKETS</h1>
+    <p>Welcome to TICKETS</p>
+
+    <div>
+      <h1><a href="/">Accueil</a></h1>
+    </div>
+
+    <div class="container">
+      <div class="row">
+          <h1 class="header">Tickets</h1>
+          <table id="tickets" class="centered responsive-table highlight">
+              <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Title</th>
+                      <th>Priority</th>
+                      <th>JSON Detail</th>
+                      <th>Delete</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <% tickets.forEach(function(ticket) { %>
+                  <tr>
+                      <td><%= ticket.IDBILLET %></td>
+                      <td><%= ticket.TITREBILLET %></td>
+                      <td><%= ticket.URGENCEBILLET %></td>
+                      <td>
+                          <a href="/ticket/<%= ticket.id %>" class="waves-effect waves-light btn blue blueen-4"><i class="material-icons">description</i></a>
+                      </td>
+                      <td>
+                        <form action="/ticket/<%= ticket.IDBILLET %>?_method=DELETE" method="post">
+                          <input type="hidden" id="idbillet" name="idbillet" value="<%= ticket.IDBILLET %>">
+                          <button type="submit" class="waves-effect waves-light btn red darken-4"><i class="material-icons">delete_forever</i></button>
+                        </form>
+                      </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+          </table>
+      </div>
+      <div class="row">
+        <a href="/addticket" class="btn green">Ajouter un ticket</a>
+      </div>
+    </div>
+  </body>
+</html>
