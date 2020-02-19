@@ -2,10 +2,12 @@
 <html>
 
 <head>
-  <title>Tableau de bord</title>
+  <title>Ajout d'un ticket en cours</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="../public/stylesheets/style.css">
+
   <meta charset="UTF-8">
 </head>
 
@@ -22,8 +24,35 @@
       </ul>
     </div>
   </nav>
-  <h1>Tableau de bord</h1>
-  <h3 class="header">Gestion des billets</h3>
+  <h1>Rechercher un billet</h1>
+
+  <div id="formAjout" class="col">
+    <form action="/recherche" method="POST">
+      <div class="input-field">
+        <label for="rechercheBillet">Rechercher</label><br>
+        <input placeholder="Exemple : Michel ou 2020/02/17" name="rechercheBillet" type="text" class="validate"
+          data-length="120" id="input_text" required>
+      </div>
+
+      <div class="input-field">
+        <label for="typeRechercheBillet">Critère de recherche</label><br><br>
+        <select id="typeRechercheBillet" name="typeRechercheBillet" class="dispSelect">
+          <option value="">Veuillez sélectionner un critère de recherche</option>
+          <option value="titreBillet">Par titre du billet</option>
+          <option value="dateCreationBillet">Par date de création</option>
+          <option value="urgenceBillet">Par importance</option>
+          <option value="idBillet">Par ID du billet</option>
+        </select>
+      </div>
+
+      <button class="waves-effect waves-light btn blue" type="submit" name="action">
+        <i class="material-icons left">add_box</i>Rechercher
+      </button>
+    </form>
+  </div>
+
+
+  <% if(typeof billets != 'undefined') {%>
   <table id="billets" class="centered responsive-table highlight">
     <thead>
       <tr>
@@ -36,9 +65,8 @@
       </tr>
     </thead>
     <tbody>
-      <% billets.forEach(function(billet) {%>
+      <%billets.forEach(function(billet) {%>
       <tr>
-
         <td>
           <%= billet.DATECREATIONBILLET.getDate()%>/<%= billet.DATECREATIONBILLET.getUTCMonth()+1%>/<%= billet.DATECREATIONBILLET.getUTCFullYear()%>
         </td>
@@ -57,9 +85,14 @@
         <td class="green">Terminé</td>
         <% } %>
       </tr>
-      <% }); %>
+      <% })%>
     </tbody>
   </table>
+  <%} %>
+
+
+
+
 </body>
 
 </html>

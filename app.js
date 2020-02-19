@@ -49,6 +49,8 @@ var usersRouter = require('./routes/users');
 var billetsRouter = require('./routes/billets');
 var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
+var rechercheRouter = require('./routes/recherche');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,6 +67,8 @@ app.use('/users', usersRouter);
 app.use('/billets', billetsRouter);
 app.use('/billet', billetRouter);
 app.use('/ajouterBillet', ajouterBilletRouter);
+app.use('/recherche', rechercheRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
