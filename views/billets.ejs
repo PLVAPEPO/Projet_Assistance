@@ -35,8 +35,10 @@
           <td><%= billet.IDBILLET %></td>
           <td><%= billet.TITREBILLET %></td>
           <td><%= billet.URGENCEBILLET %></td>
-          <td><%= billet.DATECREATIONBILLET.toDateString() %></td>
           <td>
+            <%= billet.DATECREATIONBILLET.getDate()%>/<%= billet.DATECREATIONBILLET.getUTCMonth()+1%>/<%= billet.DATECREATIONBILLET.getUTCFullYear()%>
+          </td>
+                    <td>
             <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn blue"><i class="material-icons">zoom_in</i> </a>
           </td>
           <% if (billet.ETATBILLET == 0) { %>
