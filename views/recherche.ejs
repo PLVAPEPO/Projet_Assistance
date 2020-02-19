@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Ajout d'un ticket en cours</title>
+  <title>Rechercher un billet</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -18,6 +18,7 @@
         <a class="brand-logo right">Assistance</a>
         <li><a href="/" class="waves-effect waves-light btn blue"><i
               class="material-icons left">keyboard_arrow_left</i>Revenir à l'Accueil</a></li>
+        <li><a href="/billets" class="btn blue">Tableau de bord</a>
         <li><a href="/ajouterBillet" class="btn blue">Ajouter un billet</a>
         <li><a href="/recherche" class="btn blue">Rechercher</a>
         </li>
@@ -40,7 +41,7 @@
           <option value="">Veuillez sélectionner un critère de recherche</option>
           <option value="titreBillet">Par titre du billet</option>
           <option value="dateCreationBillet">Par date de création</option>
-          <option value="urgenceBillet">Par importance</option>
+          <option value="urgenceBillet">Par importance/urgence</option>
           <option value="idBillet">Par ID du billet</option>
         </select>
       </div>
