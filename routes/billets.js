@@ -10,7 +10,7 @@ function pad(n, width, z) {
 router.get('/', function (req, res, next) {
   var d = new Date();
   let date = '' + d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1, 2) + "-%"
-  let query = 'SELECT * FROM BILLET WHERE DATECREATIONBILLET LIKE ?';
+  let query = 'SELECT * FROM BILLET WHERE DATECREATIONBILLET LIKE ?  ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
   con.query(query, date + "%", (err, rows) => {
     if (err) throw err;
     res.render('billets', { 'billets': rows });

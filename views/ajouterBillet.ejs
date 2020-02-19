@@ -12,13 +12,19 @@
 </head>
 
 <body>
+  <nav>
+    <div class="nav-wrapper blue">
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <a class="brand-logo right">Assistance</a>
+        <li><a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">keyboard_arrow_left</i>Revenir
+            à l'Accueil</a>
+        </li>
+        <li><a href="/ajouterBillet" class="btn blue">Ajouter un billet</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <h1>Ajouter un billet</h1>
-  <p></p>
-
-  <div>
-    <a href="/" class="waves-effect waves-light btn blue"><i
-        class="material-icons left">keyboard_arrow_left</i>Retourner à l'Accueil</a>
-  </div>
 
   <div id="formAjout" class="col">
     <form action="/ajouterBillet" method="POST">

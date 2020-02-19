@@ -10,53 +10,56 @@
 </head>
 
 <body>
+  <nav>
+    <div class="nav-wrapper blue">
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <a class="brand-logo right">Assistance</a>
+        <li><a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">keyboard_arrow_left</i>Revenir
+            à l'Accueil</a>
+        </li>
+        <li><a href="/ajouterBillet" class="btn blue">Ajouter un billet</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <h1>Tableau de bord</h1>
-  <p>
-    <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">keyboard_arrow_left</i>Revenir à l'Accueil</a>
-  </p>
+  <h3 class="header">Gestion des billets</h3>
+  <table id="billets" class="centered responsive-table highlight">
+    <thead>
+      <tr>
+        <th>Date de création du billet</th>
+        <th>Titre du billet</th>
+        <th>Priorité</th>
+        <th>Id</th>
+        <th>Détails</th>
+        <th>Etat du billet</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% billets.forEach(function(billet) {%>
+      <tr>
 
-  <!-- <div class="container"> -->
-  <div class="row">
-    <h3 class="header">Gestion des billets</h3>
-    <table id="billets" class="centered responsive-table highlight">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Titre du billet</th>
-          <th>Priorité</th>
-          <th>Date de création du billet</th>
-          <th>Détails</th>
-          <th>Etat du billet</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% billets.forEach(function(billet) {%>
-          <tr>
-          <td><%= billet.IDBILLET %></td>
-          <td><%= billet.TITREBILLET %></td>
-          <td><%= billet.URGENCEBILLET %></td>
-          <td>
-            <%= billet.DATECREATIONBILLET.getDate()%>/<%= billet.DATECREATIONBILLET.getUTCMonth()+1%>/<%= billet.DATECREATIONBILLET.getUTCFullYear()%>
-          </td>
-                    <td>
-            <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn blue"><i class="material-icons">zoom_in</i> </a>
-          </td>
-          <% if (billet.ETATBILLET == 0) { %>
-          <td class="red">Non affecté</td>
-          <% } else if (billet.ETATBILLET == 1) { %>
-          <td class="white">Affecté</td>
-          <% } else if (billet.ETATBILLET == 2) { %>
-          <td class="green">Terminé</td>
-          <% } %>
-        </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <a href="/ajouterBillet" class="btn blue">Ajouter un billet</a>
-  </div>
-  <!-- </div> -->
+        <td>
+          <%= billet.DATECREATIONBILLET.getDate()%>/<%= billet.DATECREATIONBILLET.getUTCMonth()+1%>/<%= billet.DATECREATIONBILLET.getUTCFullYear()%>
+        </td>
+        <td><%= billet.TITREBILLET %></td>
+        <td><%= billet.URGENCEBILLET %></td>
+        <td><%= billet.IDBILLET %></td>
+        <td>
+          <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn blue"><i
+              class="material-icons">zoom_in</i> </a>
+        </td>
+        <% if (billet.ETATBILLET == 0) { %>
+        <td class="red">Non affecté</td>
+        <% } else if (billet.ETATBILLET == 1) { %>
+        <td class="white">Affecté</td>
+        <% } else if (billet.ETATBILLET == 2) { %>
+        <td class="green">Terminé</td>
+        <% } %>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
 </body>
 
 </html>

@@ -27,26 +27,27 @@ router.get("/confirm", function (req, res) {
 });
 
 router.post("/", function (req, res) {
-	var d = new Date();
-	let dateY = d.getUTCFullYear()
-	let dateM = d.getUTCMonth()+1
-	let dateD = d.getDate()
-	let dateC = '' + dateY + '-' + dateM + '-' + dateD
-	con.query('INSERT INTO BILLET SET ?',
-		{
-			'TITREBILLET': req.body.titreBillet,
-			'IDPROBLEME': req.body.problemeBillet,
-			'URGENCEBILLET': req.body.urgenceBillet,
-			'MESSAGEBILLET': req.body.messageBillet,
-			'IDORDINATEUR': req.body.posteOrdinateur,
-			'ETATBILLET': 0,
-			'DATECREATIONBILLET': dateC
+		var d = new Date();
+		let dateY = d.getUTCFullYear()
+		let dateM = d.getUTCMonth() + 1
+		let dateD = d.getDate()
+		let dateC = '' + dateY + '-' + dateM + '-' + dateD
+		con.query('INSERT INTO BILLET SET ?',
+			{
+				'TITREBILLET': req.body.titreBillet,
+				'IDPROBLEME': req.body.problemeBillet,
+				'URGENCEBILLET': req.body.urgenceBillet,
+				'MESSAGEBILLET': req.body.messageBillet,
+				'IDORDINATEUR': req.body.posteOrdinateur,
+				'ETATBILLET': 0,
+				'DATECREATIONBILLET': dateC
 			},
-		(err, rows) => {
-			if (err) throw err;
-			res.redirect('/');
-			// res.json(req.body.titreBillet);
-		});
+			(err, rows) => {
+				if (err) throw err;
+				res.redirect('/');
+				// res.json(req.body.titreBillet);
+			});
+
 });
 
 module.exports = router;
