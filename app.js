@@ -4,9 +4,10 @@ var app = express()
 var createError = require('http-errors');
 var session = require('express-session')
 var path = require('path');
-var helmet = require('helmet');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
+var HELMET = require('helmet');
+var methodOverride = require('method-override');
 
 var HELMET = require('helmet');
 app.use(HELMET());
@@ -49,7 +50,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var billetsRouter = require('./routes/billets');
 var billetRouter = require('./routes/billet');
-var addTicketRouter = require('./routes/addticket');
+var ajouterBilletRouter = require('./routes/ajouterBillet');
+var rechercheRouter = require('./routes/recherche');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,7 +68,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/billets', billetsRouter);
 app.use('/billet', billetRouter);
-app.use('/addticket', addTicketRouter);
+app.use('/ajouterBillet', ajouterBilletRouter);
+app.use('/recherche', rechercheRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

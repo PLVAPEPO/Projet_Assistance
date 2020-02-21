@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Vue globale des billets</title>
+  <title>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -10,16 +10,83 @@
 </head>
 
 <body>
-  <h1>Vue globale des billets</h1>
-  <p>Cette interface offre une vue globale des billets</p>
-  <p><a href="/">Revenir à l'Accueil</a></p>
+  <nav>
+    <div class="nav-wrapper blue">
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <a class="brand-logo right"><i class="material-icons right">build</i>Assistance</a>
+        <li><a href="/" class="waves-effect waves-light btn blue"><i
+              class="material-icons left">keyboard_arrow_left</i>Revenir à l'Accueil</a></li>
+        <li><a href="/billets" class="btn blue"><i class="material-icons left">dashboard</i>Tableau de
+            bord</a>
+        <li><a href="/ajouterBillet" class="btn blue"><i class="material-icons left">add</i>Ajouter un
+            billet</a>
+        <li><a href="/recherche" class="btn blue"><i class="material-icons left">search</i>Rechercher</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
+  <p>
+    <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">check</i>Prendre en charge le
+      billet</a>
+    <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">close</i>Refuser le billet</a>
 
-  <p> L'id du billet est : <% billet.IDBILLET%></p>
-  <table id="billet" class="centered responsive-table highlight">
-    <thead>
-      <tr>
-        <th> YO <% billet.IDBILLET %></th>
-    </thead>
+  </p>
+
+  <table style="width:100%">
+    <!-- <tr>
+        <th>ID du BILLET</th>
+        <td><%= billet[0].IDBILLET%></td>
+      </tr> -->
+    <tr>
+      <th>Titre</th>
+      <td><%= billet[0].TITREBILLET%></td>
+
+      <th>Etat</th>
+      <% if (billet[0].ETATBILLET == 0) { %>
+      <td class="red center">Non affecté</td>
+      <% } else if (billet[0].ETATBILLET == 1) { %>
+      <td class="white center">Affecté</td>
+      <% } else if (billet[0].ETATBILLET == 2) { %>
+      <td class="green center">Terminé</td>
+      <% } %>
+    </tr>
+    <tr>
+      <th>Type problème</th>
+      <td><%= billet[0].NOMPROBLEME %></td>
+
+      <th>Date de création</th>
+      <td>
+        <%= billet[0].DATECREATIONBILLET.getDate()%>/<%= billet[0].DATECREATIONBILLET.getUTCMonth()+1%>/<%= billet[0].DATECREATIONBILLET.getUTCFullYear()%>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Urgence</th>
+      <% if (!billet[0].URGENCEBILLET) { %>
+      <td>Non renseigné</td>
+      <% } else  {%>
+      <td><%= billet[0].URGENCEBILLET %>/5</td>
+      <% } %>
+
+      <th>Pièce Jointe</th>
+      <% if (!billet[0].URGENCEBILLET) { %>
+      <td>Pas de pièce jointe</td>
+      <% } else  {%>
+      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
+      <td>EN COURS DE REALISATION</td>
+      <% } %>
+    </tr>
+
+    <tr>
+      <th>Description</th>
+      <td><%= billet[0].MESSAGEBILLET%></td>
+    </tr>
+
+
+  </table>
 </body>
+<script url="../public/js/main.js"></script>
 
 </html>
