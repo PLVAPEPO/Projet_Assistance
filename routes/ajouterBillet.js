@@ -34,6 +34,7 @@ router.post("/", function (req, res) {
 		let dateC = '' + dateY + '-' + dateM + '-' + dateD
 		con.query('INSERT INTO BILLET SET ?',
 			{
+				'IDPERSONNE' : 1,
 				'TITREBILLET': req.body.titreBillet,
 				'IDPROBLEME': req.body.problemeBillet,
 				'URGENCEBILLET': req.body.urgenceBillet,
