@@ -38,6 +38,7 @@
         <th>Etat du billet</th>
       </tr>
     </thead>
+    <% if(typeof billets != undefined) {%>
     <tbody>
       <% billets.forEach(function(billet) {%>
       <tr>
@@ -62,6 +63,7 @@
       </tr>
       <% }); %>
     </tbody>
+    <% }%>
   </table>
 </body>
 
