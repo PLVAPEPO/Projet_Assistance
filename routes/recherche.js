@@ -22,17 +22,13 @@ router.post("/", function (req, res) {
 		res.redirect('/recherche')
 	}
 	else {
-		// if (req.body.typeRechercheBillet == "titreBillet" || req.body.typeRechercheBillet == "") {
-
 			let type = '' +  req.body.typeRechercheBillet + ''
 			let query = "SELECT * FROM BILLET WHERE "+type+" like ?";
 			let recherche = '%' + req.body.rechercheBillet.replace(/\//g,"-") + '%'
-			// res.json(recherche)
 			con.query(query, recherche, (err, rows) => {
 				if (err) throw err;
 				res.render('recherche', { 'billets': rows });
 			});
-		// }
 	}
 });
 

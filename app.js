@@ -8,8 +8,6 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var HELMET = require('helmet');
 var methodOverride = require('method-override');
-
-var HELMET = require('helmet');
 app.use(HELMET());
 var logger = require('morgan');
 app.use(logger('dev'));
