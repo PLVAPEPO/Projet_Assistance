@@ -11,6 +11,9 @@
     <nav class="nav-extended">
         <div class="nav-content blue">
             <ul class="tabs tabs-transparent">
+                <% if(typeof mois !== 'undefined') {%>
+                    <li><input type="hidden" value="<%=mois%>"></li>
+                <%}%>
                 <li class="month tab"><a class="hvr-underline-from-center" href="/stats/0">Mois actuel</a></li>
                 <li class="month tab"><a class="hvr-underline-from-center" href="/stats/1">Janvier</a></li>
                 <li class="month tab"><a class="hvr-underline-from-center" href="/stats/2">Février</a></li>
@@ -30,30 +33,8 @@
 
     <div class="section">
         <h5>Informations générales du mois de 
-            <% if(mois[0] == 1) {%>
-                Janvier
-            <%} else if (mois[0] == 2) {%>
-            Février
-            <%} else if (mois[0] == 3){%>
-            Mars
-            <%} else if (mois[0] == 4){%>
-            Avril
-            <%} else if (mois[0] == 5){%>
-            Mai
-            <%} else if (mois[0] == 6){%>
-            Juin
-            <%} else if (mois[0] == 7){%>
-            Juillet
-            <%} else if (mois[0] == 8){%>
-            Aout
-            <%} else if (mois[0] == 9){%>
-            Septembre
-            <%} else if (mois[0] == 10){%>
-            Octobre
-            <%} else if (mois[0] == 11){%>
-            Novembre
-            <%} else if (mois[0] == 12){%>
-            Décembre
+            <% if(typeof mois !== 'undefined') {%>
+                <%= mois%>
             <%}%>
         </h5>
         <div class="row grey lighten-4">

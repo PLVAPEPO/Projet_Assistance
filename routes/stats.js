@@ -21,6 +21,21 @@ router.get('/:month', function (req, res, next) {
     let query = 'SELECT COUNT(*) AS "NBBILLETS" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? ORDER BY IDBILLET';
     let date = ''
 
+    let months = {
+        '1':'Janvier',
+        '2':'Fevrier',
+        '3':'Mars',
+        '4':'Avril',
+        '5':'Mai',
+        '6':'Juin',
+        '7':'Juillet',
+        '8':'Aout',
+        '9':'Septembre',
+        '10':'Octobre',
+        '11':'Novembre',
+        '12':'Decembre',
+    }
+
     if (req.params.month == 0) {
         var d = new Date();
         date = d.getUTCMonth() + 1
@@ -41,8 +56,8 @@ router.get('/:month', function (req, res, next) {
     }
     con.query(query, date, (err, rows) => {
         if (err) throw err;
-        res.render('stats', { 'stats': rows, 'mois' : req.params.month});
-        //  res.json(rows)
+        res.render('stats', { 'stats': rows, 'mois' : months[req.params.month]});
+        //  res.json(months[req.params.month])
     });
 });
 
