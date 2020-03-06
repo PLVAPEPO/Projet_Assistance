@@ -43,7 +43,6 @@ passport.use(new LocalStrategy(
 ));
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var billetsRouter = require('./routes/billets');
 var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
@@ -54,18 +53,43 @@ var rechercheRouter = require('./routes/recherche');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+var checkLoggedIn = (req, res, next) => req.session.loggedIn ? next(): res.redirect("/");
+
+var login = function(req, res, next) {
+  // let query = 'SELECT PseudoPersonne, MdpPersonne FROM PERSONNE WHERE BILLET.IDBILLET = ?';
+  //   con.query(query, req.params.id, (err, rows) => {
+  //       if (err) throw err;
+  //       res.render('/');
+  //   });
+  // if(req.query.password == req.params.password && req.query.)
+  req.session.connected=true;
+  next();
+}
+
+var logout = function(req, res, next){
+  req.session.destroy(function(err) {
+    if(err) console.log(err);
+    res.redirect('/');
+  })
+}
+
+
+// app.use('/login',login,billetsRouter);
+app.use('/index', indexRouter)
+app.use('/logout',logout,indexRouter);
 app.use('/billets', billetsRouter);
+// app.use('/billets',checkLoggedIn, billetsRouter);
 app.use('/billet', billetRouter);
 app.use('/ajouterBillet', ajouterBilletRouter);
 app.use('/recherche', rechercheRouter);
+app.use('/', indexRouter);
 
 
 // catch 404 and forward to error handler
@@ -84,22 +108,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var login = function(req, res) {
-  req.session.connected=true;
-}
-
-var checkIfLoggedIn = function(req, res, next) {
-  if(req.session.loggedIn)
-    next();
-  else
-    res.redirect("/index");
-}
-
-var logout = function(req, res){
-  req.session.destroy(function(err) {
-    if(err) console.log(err);
-    res.redirect('/');
-  })
-}
 
 app.listen(8080);
