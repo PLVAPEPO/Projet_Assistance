@@ -83,12 +83,14 @@ var logout = function(req, res, next){
 }
 
 
-app.use('/login',login,billetsRouter);
+// app.use('/login',login,billetsRouter);
+app.use('/index', indexRouter)
 app.use('/logout',logout,indexRouter);
-app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet',checkLoggedIn, billetRouter);
-app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
-app.use('/recherche',checkLoggedIn, rechercheRouter);
+app.use('/billets', billetsRouter);
+// app.use('/billets',checkLoggedIn, billetsRouter);
+app.use('/billet', billetRouter);
+app.use('/ajouterBillet', ajouterBilletRouter);
+app.use('/recherche', rechercheRouter);
 app.use('/', indexRouter);
 
 

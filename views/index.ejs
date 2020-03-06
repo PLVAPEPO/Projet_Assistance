@@ -2,34 +2,58 @@
 <html>
 
 <head>
-  <title><%= title %></title>
+  <title>Connexion</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 
 <body>
-  <div>
-    <h1>Demande d'aide</h1>
-  </div>
-  <p>Welcome to <%= title %></p>
-
-  <div>
-    <form action="/login">
-      <div class="container">
+  <div class="row">
+    <div>
+      <h1>Demande d'aide </h1>
+      <p>Demande d'assistance du service informatique et logistique.<br>Type de problêmes pouvant être envoyés :
+        Matériel,
+        Logiciel ou Utilisateur.</p>
+    </div>
+    <form action="/index" method="POST">
+      <div>
         <label for="uname"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="uname" required>
-  
+
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required>
-  
-        <button type="submit">Login</button>
-        <label>
+
+        <button type="submit" class="btn blue">S'identifier</button>
       </div>
     </form>
   </div>
-  <div>
 
+  <div>
+    <h5>Identifiants disponibles</h5>
+    <table id="personnes" class="centered responsive-table highlight">
+      <thead>
+        <tr>
+          <th>Date de création du billet</th>
+          <th>Titre du billet</th>
+          <th>Priorité</th>
+          <th>Id</th>
+          <th>Détails</th>
+          <th>Etat du billet</th>
+        </tr>
+      </thead>
+      <% if(typeof personnes != undefined) {%>
+      <tbody>
+        <% personnes.forEach(function(personne) {%>
+        <tr>
+          <td>
+            <%= personne.PRENOMPERSONNE %>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+      <% }%>
+    </table>
   </div>
 </body>
 
