@@ -29,10 +29,13 @@
     </nav>
 
     <div class="section">
-        <h5>Section 1</h5>
-        <p>Stuff</p>
+        <h5>Informations générales du mois de 
+            <% if(stats.mois == 1) {%>
+                <h5>Janvier</h5>
+            <%}%>
+        </h5>
         <div class="row grey lighten-4">
-            <div class="col s12">This div is 12-columns wide on all screen sizes</div>
+            <div class="col s12"><p>This div is 12-columns wide on all screen sizes</p></div>
             <div class="col s6">6-columns (one-half)</div>
             <div class="col s6">6-columns (one-half)</div>
         </div>
