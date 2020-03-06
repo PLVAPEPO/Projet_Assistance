@@ -56,8 +56,13 @@ router.get('/:month', function (req, res, next) {
     }
     con.query(query, date, (err, rows) => {
         if (err) throw err;
+<<<<<<< HEAD
         res.render('stats', { 'stats': rows, 'mois' : months[req.params.month]});
         //  res.json(months[req.params.month])
+=======
+        // res.render('stats', { 'stats': rows, 'mois' : req.params.month});
+        res.json(rows)
+>>>>>>> 7b590dbdf9a1a6decb528c612edecdedbaf9a56d
     });
 });
 
