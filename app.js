@@ -1,9 +1,12 @@
 var express = require('express');
 var app = express()
+let con = require('/db');
 
 var createError = require('http-errors');
 var session = require('express-session')
 var path = require('path');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
 var HELMET = require('helmet');
 var methodOverride = require('method-override');
 app.use(HELMET());
@@ -82,15 +85,16 @@ var logout = function(req, res, next){
 }
 
 
-// app.use('/login',login,billetsRouter);
-app.use('/index', indexRouter)
+app.use('/login',login,billetsRouter);
 app.use('/logout',logout,indexRouter);
 app.use('/billets', billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
 app.use('/billet', billetRouter);
-app.use('/ajouterBillet', ajouterBilletRouter);
 app.use('/recherche', rechercheRouter);
 app.use('/stats', statsRouter);
+app.use('/billets',checkLoggedIn, billetsRouter);
+app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/index', indexRouter);
 app.use('/', indexRouter);
 
 
