@@ -26,23 +26,23 @@ app.use(session({
   cookie: { secure: false }
 }))
 
-var LocalStrategy = require('passport-local').Strategy;
-var passport = require('passport')
+// var LocalStrategy = require('passport-local').Strategy;
+// var passport = require('passport')
 
-passport.use(new LocalStrategy(
-  { usernameField: 'email' },
-  (email, password, done) => {
-    console.log('Inside local strategy callback')
-    // here is where you make a call to the database
-    // to find the user based on their username or email address
-    // for now, we'll just pretend we found that it was users[0]
-    const user = users[0] 
-    if(email === user.email && password === user.password) {
-      console.log('Local strategy returned true')
-      return done(null, user)
-    }
-  }
-));
+// passport.use(new LocalStrategy(
+//   { usernameField: 'email' },
+//   (email, password, done) => {
+//     console.log('Inside local strategy callback')
+//     // here is where you make a call to the database
+//     // to find the user based on their username or email address
+//     // for now, we'll just pretend we found that it was users[0]
+//     const user = users[0] 
+//     if(email === user.email && password === user.password) {
+//       console.log('Local strategy returned true')
+//       return done(null, user)
+//     }
+//   }
+// ));
 
 var indexRouter = require('./routes/index');
 var billetsRouter = require('./routes/billets');
@@ -65,14 +65,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 var checkLoggedIn = (req, res, next) => req.session.loggedIn ? next(): res.redirect("/");
 
 var login = function(req, res, next) {
-  // let query = 'SELECT PseudoPersonne, MdpPersonne FROM PERSONNE WHERE BILLET.IDBILLET = ?';
-  //   con.query(query, req.params.id, (err, rows) => {
-  //       if (err) throw err;
-  //       res.render('/');
-  //   });
-  // if(req.query.password == req.params.password && req.query.)
-  req.session.connected=true;
-  next();
+  let query = 'SELECT PseudoPersonne FROM Personne WHERE PseudoPersonne = ?';
+    con.query(query, req.rows.uname, (err, rows) => {
+        if (err) throw err;
+        if(rows.length === 1 && req.body.password === rows.psw)
+        {
+          req.session.connected=true;
+          next();
+        }
+        else
+        {
+          res.redirect('/');
+        }      
+    });
+  
 }
 
 var logout = function(req, res, next){
@@ -83,7 +89,7 @@ var logout = function(req, res, next){
 }
 
 
-// app.use('/login',login,billetsRouter);
+app.use('/login',login,billetsRouter);
 app.use('/index', indexRouter)
 app.use('/logout',logout,indexRouter);
 app.use('/billets', billetsRouter);
