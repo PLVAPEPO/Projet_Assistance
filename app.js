@@ -5,6 +5,8 @@ var app = express()
 var createError = require('http-errors');
 var session = require('express-session')
 var path = require('path');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
 var HELMET = require('helmet');
 var methodOverride = require('method-override');
 app.use(HELMET());
@@ -25,29 +27,30 @@ app.use(session({
   cookie: { secure: false }
 }))
 
-// var LocalStrategy = require('passport-local').Strategy;
-// var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport')
 
-// passport.use(new LocalStrategy(
-//   { usernameField: 'email' },
-//   (email, password, done) => {
-//     console.log('Inside local strategy callback')
-//     // here is where you make a call to the database
-//     // to find the user based on their username or email address
-//     // for now, we'll just pretend we found that it was users[0]
-//     const user = users[0] 
-//     if(email === user.email && password === user.password) {
-//       console.log('Local strategy returned true')
-//       return done(null, user)
-//     }
-//   }
-// ));
+passport.use(new LocalStrategy(
+  { usernameField: 'email' },
+  (email, password, done) => {
+    console.log('Inside local strategy callback')
+    // here is where you make a call to the database
+    // to find the user based on their username or email address
+    // for now, we'll just pretend we found that it was users[0]
+    const user = users[0] 
+    if(email === user.email && password === user.password) {
+      console.log('Local strategy returned true')
+      return done(null, user)
+    }
+  }
+));
 
 var indexRouter = require('./routes/index');
 var billetsRouter = require('./routes/billets');
 var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
 var rechercheRouter = require('./routes/recherche');
+var statsRouter = require('./routes/stats');
 
 
 // view engine setup
@@ -64,6 +67,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var checkLoggedIn = (req, res, next) => req.session.loggedIn ? next(): res.redirect("/");
 
 var login = function(req, res, next) {
+
   let query = 'SELECT PseudoPersonne FROM Personne WHERE PseudoPersonne = ?';
   con.query(query, req.body.uname, (err, rows) => {
       if (err) throw err;
@@ -79,6 +83,7 @@ var login = function(req, res, next) {
       }      
   });
   
+
 }
 
 var logout = function(req, res, next){
@@ -90,13 +95,15 @@ var logout = function(req, res, next){
 
 
 app.use('/login',login,billetsRouter);
-app.use('/index', indexRouter)
 app.use('/logout',logout,indexRouter);
 app.use('/billets', billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
 app.use('/billet', billetRouter);
-app.use('/ajouterBillet', ajouterBilletRouter);
 app.use('/recherche', rechercheRouter);
+app.use('/stats', statsRouter);
+app.use('/billets',checkLoggedIn, billetsRouter);
+app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/index', indexRouter);
 app.use('/', indexRouter);
 
 
