@@ -1,6 +1,6 @@
+let con = require('./db')
 var express = require('express');
 var app = express()
-let con = require('/db');
 
 var createError = require('http-errors');
 var session = require('express-session')
@@ -65,18 +65,19 @@ var checkLoggedIn = (req, res, next) => req.session.loggedIn ? next(): res.redir
 
 var login = function(req, res, next) {
   let query = 'SELECT PseudoPersonne FROM Personne WHERE PseudoPersonne = ?';
-    con.query(query, req.rows.uname, (err, rows) => {
-        if (err) throw err;
-        if(rows.length === 1 && req.body.password === rows.psw)
-        {
-          req.session.connected=true;
-          next();
-        }
-        else
-        {
-          res.redirect('/');
-        }      
-    });
+  con.query(query, req.body.uname, (err, rows) => {
+      if (err) throw err;
+      if(rows.length === 1 && req.body.password === rows.psw)
+      {
+        req.session.connected=true;
+        res.redirect('/billets');
+        //next();
+      }
+      else
+      {
+        res.redirect('/');
+      }      
+  });
   
 }
 
