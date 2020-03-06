@@ -28,23 +28,6 @@ app.use(session({
   cookie: { secure: false }
 }))
 
-var LocalStrategy = require('passport-local').Strategy;
-var passport = require('passport')
-
-passport.use(new LocalStrategy(
-  { usernameField: 'email' },
-  (email, password, done) => {
-    console.log('Inside local strategy callback')
-    // here is where you make a call to the database
-    // to find the user based on their username or email address
-    // for now, we'll just pretend we found that it was users[0]
-    const user = users[0] 
-    if(email === user.email && password === user.password) {
-      console.log('Local strategy returned true')
-      return done(null, user)
-    }
-  }
-));
 
 var indexRouter = require('./routes/index');
 var billetsRouter = require('./routes/billets');
@@ -105,8 +88,8 @@ app.use('/billet',checkLoggedIn, billetRouter);
 app.use('/recherche',checkLoggedIn, rechercheRouter);
 app.use('/stats',checkLoggedIn,statsRouter);
 app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/', indexRouter);
 app.use('/index', indexRouter);
-app.use('/',logout, indexRouter);
 
 
 // catch 404 and forward to error handler

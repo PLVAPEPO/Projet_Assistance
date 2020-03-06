@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
 
-  <% include layout/head %>
-
+<head>
+  <title>Connexion</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
 
 <body>
   <div class="row">
@@ -15,10 +19,10 @@
     <form action="/login" method="POST">
       <div>
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+        <input type="text" placeholder="Enter Username" name="uname" required>
 
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+        <input type="password" placeholder="Enter Password" name="psw" required>
 
         <button type="submit" class="btn blue">S'identifier</button>
       </div>
