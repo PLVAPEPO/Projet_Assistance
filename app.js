@@ -50,6 +50,7 @@ var billetsRouter = require('./routes/billets');
 var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
 var rechercheRouter = require('./routes/recherche');
+var statsRouter = require('./routes/stats');
 
 
 // view engine setup
@@ -86,10 +87,14 @@ var logout = function(req, res, next){
 
 app.use('/login',login,billetsRouter);
 app.use('/logout',logout,indexRouter);
+app.use('/billets', billetsRouter);
+// app.use('/billets',checkLoggedIn, billetsRouter);
+app.use('/billet', billetRouter);
+app.use('/recherche', rechercheRouter);
+app.use('/stats', statsRouter);
 app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet',checkLoggedIn, billetRouter);
 app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
-app.use('/recherche',checkLoggedIn, rechercheRouter);
+app.use('/index', indexRouter);
 app.use('/', indexRouter);
 
 
