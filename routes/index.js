@@ -14,11 +14,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.post("/", function (req, res) {
-  con.query('SELECT * FROM PERSONNE',
-    (err, rows) => {
-      if (err) throw err;
-      res.json(req.body.titreBillet);
-    });
+  // con.query('SELECT * FROM PERSONNE',
+  //   (err, rows) => {
+  //     if (err) throw err;
+  //     res.json(req.body.titreBillet);
+  //   });
+  res.redirect('/billets');
 });
 
 module.exports = router;
