@@ -104,7 +104,7 @@ app.use('/billets',checkLoggedIn, billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
 app.use('/billet',checkLoggedIn, billetRouter);
 app.use('/recherche',checkLoggedIn, rechercheRouter);
-app.use('/stats',checkLoggedIn,statsRouter);
+app.use('/stats',statsRouter);
 app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
 app.use('/index', indexRouter);
 app.use('/',logout, indexRouter);
