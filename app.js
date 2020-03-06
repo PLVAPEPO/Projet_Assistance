@@ -47,6 +47,7 @@ var billetsRouter = require('./routes/billets');
 var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
 var rechercheRouter = require('./routes/recherche');
+var statsRouter = require('./routes/stats');
 
 
 // view engine setup
@@ -89,6 +90,7 @@ app.use('/billets', billetsRouter);
 app.use('/billet', billetRouter);
 app.use('/ajouterBillet', ajouterBilletRouter);
 app.use('/recherche', rechercheRouter);
+app.use('/stats', statsRouter);
 app.use('/', indexRouter);
 
 
