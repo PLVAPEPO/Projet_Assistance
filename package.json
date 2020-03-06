@@ -15,7 +15,6 @@
     "helmet": "^3.21.3",
     "http-errors": "~1.6.3",
     "material": "^0.4.3",
-    "materialize-css": "^1.0.0-rc.2",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",
     "mysql": "^2.18.1",
