@@ -1,6 +1,7 @@
+let con = require('./db')
 var express = require('express');
 var app = express()
-let con = require('./db');
+
 
 var createError = require('http-errors');
 var session = require('express-session')
@@ -53,6 +54,7 @@ var rechercheRouter = require('./routes/recherche');
 var statsRouter = require('./routes/stats');
 
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -64,38 +66,48 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-var checkLoggedIn = (req, res, next) => req.session.loggedIn ? next(): res.redirect("/");
+var checkLoggedIn = (req, res, next) => req.session.connected ? next(): res.redirect("/");
 
 var login = function(req, res, next) {
-  // let query = 'SELECT PseudoPersonne, MdpPersonne FROM PERSONNE WHERE BILLET.IDBILLET = ?';
-  //   con.query(query, req.params.id, (err, rows) => {
-  //       if (err) throw err;
-  //       res.render('/');
-  //   });
-  // if(req.query.password == req.params.password && req.query.)
-  req.session.connected=true;
-  next();
+
+  let query = 'SELECT PseudoPersonne, MDPPersonne FROM Personne WHERE PseudoPersonne = ?';
+  
+  con.query(query, req.body.uname, (err, rows) => {
+      if (err) throw err;
+      if(rows.length === 1 && rows[0].MDPPersonne === req.body.psw)
+      {
+        req.session.connected=true;
+        res.redirect('/billets');
+        //next();
+      }
+      else
+      {
+        res.redirect('/');
+      }      
+  });
+  
+
 }
+
 
 var logout = function(req, res, next){
   req.session.destroy(function(err) {
     if(err) console.log(err);
-    res.redirect('/');
+    next();
   })
 }
 
 
 app.use('/login',login,billetsRouter);
 app.use('/logout',logout,indexRouter);
-app.use('/billets', billetsRouter);
-// app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet', billetRouter);
-app.use('/recherche', rechercheRouter);
-app.use('/stats', statsRouter);
 app.use('/billets',checkLoggedIn, billetsRouter);
+// app.use('/billets',checkLoggedIn, billetsRouter);
+app.use('/billet',checkLoggedIn, billetRouter);
+app.use('/recherche',checkLoggedIn, rechercheRouter);
+app.use('/stats',checkLoggedIn,statsRouter);
 app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
 app.use('/index', indexRouter);
-app.use('/', indexRouter);
+app.use('/',logout, indexRouter);
 
 
 // catch 404 and forward to error handler

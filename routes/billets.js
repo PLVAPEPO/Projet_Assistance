@@ -7,7 +7,7 @@ function pad(n, width, z) {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
   var d = new Date();
   // let date = '' + d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1, 2) + "-%"
   let query = 'SELECT * FROM BILLET ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
