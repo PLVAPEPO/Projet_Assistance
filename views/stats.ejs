@@ -1,51 +1,29 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Tableau de bord</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <meta charset="UTF-8">
-</head>
+<% include layout/head%>
+
 
 <body>
-    <nav>
-        <div class="nav-wrapper blue">
-            <ul id="nav-mobile" class="left hide-on-med-and-down">
-                <!-- <a class="brand-logo right"><i class="material-icons right">build</i>Assistance</a> -->
-                <li><a href="/" class="waves-effect waves-light btn blue"><i
-                            class="material-icons left">keyboard_arrow_left</i>Revenir à l'Accueil</a></li>
-                <li><a href="/billets" class="btn blue"><i class="material-icons left">dashboard</i>Tableau de
-                        bord</a>
-                <li><a href="/ajouterBillet" class="btn blue"><i class="material-icons left">add</i>Ajouter un
-                        billet</a>
-                <li><a href="/recherche" class="btn blue"><i class="material-icons left">search</i>Rechercher</a>
-                </li>
-                <li><a href="/logout" class="btn blue"><i
-                            class="material-icons left">power_settings_new</i>deconnexion</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <% include layout/navbar%>
 
-    <h1>Stats</h1>
+    <h1>Statistiques</h1>
     <nav class="nav-extended">
-        <div class="nav-content">
+        <div class="nav-content blue">
             <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#test1">Mois actuel</a></li>
-                <li class="tab"><a class="active" href="#test2">Janvier</a></li>
-                <li class="tab"><a class="active" href="#test2">Février</a></li>
-                <li class="tab"><a class="active" href="#test2">Mars</a></li>
-                <li class="tab"><a class="active" href="#test2">Avril</a></li>
-                <li class="tab"><a class="active" href="#test2">Mai</a></li>
-                <li class="tab"><a class="active" href="#test2">Juin</a></li>
-                <li class="tab"><a class="active" href="#test2">Juillet</a></li>
-                <li class="tab"><a class="active" href="#test2">Août</a></li>
-                <li class="tab"><a class="active" href="#test2">Septembre</a></li>
-                <li class="tab"><a class="active" href="#test2">Octobre</a></li>
-                <li class="tab"><a class="active" href="#test2">Novembre</a></li>
-                <li class="tab"><a class="active" href="#test2">Decembre</a></li>
+                <li class="tab"><a class="active" href="#test1">Mois actuel</a></li>
+                <li class="tab"><a href="#test2">Janvier</a></li>
+                <li class="tab"><a href="#test2">Février</a></li>
+                <li class="tab"><a href="#test2">Mars</a></li>
+                <li class="tab"><a href="#test2">Avril</a></li>
+                <li class="tab"><a href="#test2">Mai</a></li>
+                <li class="tab"><a href="#test2">Juin</a></li>
+                <li class="tab"><a href="#test2">Juillet</a></li>
+                <li class="tab"><a href="#test2">Août</a></li>
+                <li class="tab"><a href="#test2">Septembre</a></li>
+                <li class="tab"><a href="#test2">Octobre</a></li>
+                <li class="tab"><a href="#test2">Novembre</a></li>
+                <li class="tab"><a href="#test2">Decembre</a></li>
             </ul>
         </div>
     </nav>
