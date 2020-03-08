@@ -12,7 +12,7 @@
         <div class="nav-content blue">
             <ul class="tabs tabs-transparent">
                 <% if(typeof mois !== 'undefined') {%>
-                    <li><input type="hidden" value="<%=mois%>"></li>
+                <li><input type="hidden" value="<%=mois%>"></li>
                 <%}%>
                 <li class="month tab"><a class="hvr-underline-from-center" href="/stats/0">Mois actuel</a></li>
                 <li class="month tab"><a class="hvr-underline-from-center" href="/stats/1">Janvier</a></li>
@@ -32,34 +32,66 @@
     </nav>
 
     <div class="section">
-<<<<<<< HEAD
-        <h5>Informations générales du mois de 
-            <% if(typeof mois !== 'undefined') {%>
-                <%= mois%>
-            <%}%>
-        </h5>
-=======
-        <h5>Informations générales du mois de</h5>
->>>>>>> 7b590dbdf9a1a6decb528c612edecdedbaf9a56d
-        <div class="row grey lighten-4">
-            <div class="col s12"><p>This div is 12-columns wide on all screen sizes</p></div>
-            <div class="col s6">6-columns (one-half)</div>
-            <div class="col s6">6-columns (one-half)</div>
+        <% if(typeof mois !== 'undefined') {%>
+                <h5>Informations générales du mois de
+                    <%= mois%>
+                </h5>
+                <div class="row grey lighten-4">
+                    <div class="col s4">
+                        <p class="center-align">Nombre de problèmes ce mois-ci :</p><br>
+                        <h3 class="center-align"><%= nbb[0].value %></h3>
+                    </div>
+                    <div class="col s4 offset-s4">
+                        <p class="center-align">Nombre de problèmes ce mois-ci :</p><br>
+                        <h3 class="center-align"><%= nbb[0].value %></h3>
+                    </div>
+
+                    <div class="col s4 red">
+                        <p class="center-align">Nombre de problèmes non-résolus :</p><br>
+                        <h3 class="center-align"><%= nbbnonterm[0].value%></h3>
+                    </div>
+                    <div class="col s4">
+                        <p class="center-align">Nombre de problèmes en cours :</p><br>
+                        <h3 class="center-align"><%= nbbencours[0].value %></h3>
+                    </div>
+                    <div class="col s4 green">
+                        <p class="center-align">Nombre de problèmes terminés :</p><br>
+                        <h3 class="center-align"><%= nbbterm[0].value%></h3>
+                    </div>
+                </div>
         </div>
-    </div>
-    <div class="divider"></div>
-    <div class="section">
-        <h5>Section 2</h5>
-        <p>Stuff</p>
-    </div>
-    <div class="divider"></div>
-    <div class="section">
-        <h5>Section 3</h5>
-        <p>Stuff</p>
-    </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Nombre de billets par urgence</h5>
+            <div class="row grey lighten-4">
+
+                <div class="col s4">
+                    <p class="center-align">Urgence de niveau 1 :</p><br>
+                    <p class="center-align">Urgence de niveau 2 :</p><br>
+                    <p class="center-align">Urgence de niveau 3 :</p><br>
+                    <p class="center-align">Urgence de niveau 4 :</p><br>
+                    <p class="center-align">Urgence de niveau 5 :</p><br>
+
+                </div>
+                <div class="col s4">
+                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
+                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
+                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
+                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
+                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
+
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Section 3</h5>
+            <p>Stuff</p>
+        </div>
+        <%}%>
 
     <% include layout/script %>
-    <script type="text/javascript" src="/javascript/stats.js"></script>
+        <script type="text/javascript" src="/javascript/stats.js"></script>
 
 </body>
 

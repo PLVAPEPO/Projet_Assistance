@@ -18,32 +18,30 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:month', function (req, res, next) {
-    let query = 'SELECT COUNT(*) AS "NBBILLETS" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? ORDER BY IDBILLET';
+    let query = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? ORDER BY IDBILLET';
     let date = ''
-
     let months = {
-        '1':'Janvier',
-        '2':'Fevrier',
-        '3':'Mars',
-        '4':'Avril',
-        '5':'Mai',
-        '6':'Juin',
-        '7':'Juillet',
-        '8':'Aout',
-        '9':'Septembre',
-        '10':'Octobre',
-        '11':'Novembre',
-        '12':'Decembre',
+        '1': 'Janvier',
+        '2': 'Fevrier',
+        '3': 'Mars',
+        '4': 'Avril',
+        '5': 'Mai',
+        '6': 'Juin',
+        '7': 'Juillet',
+        '8': 'Aout',
+        '9': 'Septembre',
+        '10': 'Octobre',
+        '11': 'Novembre',
+        '12': 'Decembre',
     }
-
     if (req.params.month == 0) {
         var d = new Date();
         date = d.getUTCMonth() + 1
         if (date < 10) {
-        date = "2020-0"+date+"-%"
+            date = "2020-0" + date + "-%"
         }
         else {
-            date = "2020-"+date+"-%"
+            date = "2020-" + date + "-%"
         }
     }
     else {
@@ -56,13 +54,26 @@ router.get('/:month', function (req, res, next) {
     }
     con.query(query, date, (err, rows) => {
         if (err) throw err;
-<<<<<<< HEAD
-        res.render('stats', { 'stats': rows, 'mois' : months[req.params.month]});
-        //  res.json(months[req.params.month])
-=======
-        // res.render('stats', { 'stats': rows, 'mois' : req.params.month});
-        res.json(rows)
->>>>>>> 7b590dbdf9a1a6decb528c612edecdedbaf9a56d
+        let query2 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 0 ORDER BY IDBILLET ';
+        con.query(query2, date, (err, rows2) => {
+            if (err) throw err;
+            let query3 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 1 ORDER BY IDBILLET ';
+            con.query(query3, date, (err, rows3) => {
+                if (err) throw err;
+                let query4 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 2 ORDER BY IDBILLET ';
+                con.query(query4, date, (err, rows4) => {
+                    if (err) throw err;
+                    res.render('stats',
+                        {
+                            'nbb': rows,
+                            'nbbnonterm': rows2,
+                            'nbbencours': rows3,
+                            'nbbterm' : rows4,
+                            'mois': months[req.params.month]
+                        });
+                });
+            });
+        });
     });
 });
 
