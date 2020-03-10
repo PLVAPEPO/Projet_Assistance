@@ -37,24 +37,19 @@
                     <%= mois%>
                 </h5>
                 <div class="row grey lighten-4">
-                    <div class="col s4">
+                    <div class="col s3">
                         <p class="center-align">Nombre de problèmes ce mois-ci :</p><br>
                         <h3 class="center-align"><%= nbb[0].value %></h3>
                     </div>
-                    <div class="col s4 offset-s4">
-                        <p class="center-align">Nombre de problèmes ce mois-ci :</p><br>
-                        <h3 class="center-align"><%= nbb[0].value %></h3>
-                    </div>
-
-                    <div class="col s4 red">
+                    <div class="col s3 red">
                         <p class="center-align">Nombre de problèmes non-résolus :</p><br>
                         <h3 class="center-align"><%= nbbnonterm[0].value%></h3>
                     </div>
-                    <div class="col s4">
+                    <div class="col s3">
                         <p class="center-align">Nombre de problèmes en cours :</p><br>
                         <h3 class="center-align"><%= nbbencours[0].value %></h3>
                     </div>
-                    <div class="col s4 green">
+                    <div class="col s3 green">
                         <p class="center-align">Nombre de problèmes terminés :</p><br>
                         <h3 class="center-align"><%= nbbterm[0].value%></h3>
                     </div>
@@ -64,7 +59,6 @@
         <div class="section">
             <h5>Nombre de billets par urgence</h5>
             <div class="row grey lighten-4">
-
                 <div class="col s4">
                     <p class="center-align">Urgence de niveau 1 :</p><br>
                     <p class="center-align">Urgence de niveau 2 :</p><br>
@@ -74,19 +68,19 @@
 
                 </div>
                 <div class="col s4">
-                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
-                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
-                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
-                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
-                    <p class="center-align"><%= nbbterm[0].value%> billets</p><br>
+                    <p class="center-align"><%= urg1[0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= urg2[0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= urg3[0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= urg4[0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= urg5[0].value %> billet(s)</p><br>
 
                 </div>
             </div>
         </div>
         <div class="divider"></div>
         <div class="section">
-            <h5>Section 3</h5>
-            <p>Stuff</p>
+            <h5>Autres Statistiques</h5>
+            <p>Ici d'autres Statistiques</p>
         </div>
         <%}%>
 

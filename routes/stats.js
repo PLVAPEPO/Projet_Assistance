@@ -18,8 +18,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:month', function (req, res, next) {
-    let query = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? ORDER BY IDBILLET';
-    let date = ''
     let months = {
         '1': 'Janvier',
         '2': 'Fevrier',
@@ -34,6 +32,8 @@ router.get('/:month', function (req, res, next) {
         '11': 'Novembre',
         '12': 'Decembre',
     }
+    let date = ''
+
     if (req.params.month == 0) {
         var d = new Date();
         date = d.getUTCMonth() + 1
@@ -52,25 +52,57 @@ router.get('/:month', function (req, res, next) {
             date = "2020-" + req.params.month + "-%"
         }
     }
+    //Nombre de billets
+    let query = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? ORDER BY IDBILLET';
+    //Nombre de billets avec etat
+    let query2 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 0 ORDER BY IDBILLET ';
+    let query3 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 1 ORDER BY IDBILLET ';
+    let query4 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 2 ORDER BY IDBILLET ';
+    //Nombre de billets par urgence
+    let query5 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.URGENCEBILLET = 1 ORDER BY IDBILLET';
+    let query6 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.URGENCEBILLET = 2 ORDER BY IDBILLET';
+    let query7 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.URGENCEBILLET = 3 ORDER BY IDBILLET';
+    let query8 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.URGENCEBILLET = 4 ORDER BY IDBILLET';
+    let query9 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.URGENCEBILLET = 5 ORDER BY IDBILLET';
+
+
     con.query(query, date, (err, rows) => {
         if (err) throw err;
-        let query2 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 0 ORDER BY IDBILLET ';
         con.query(query2, date, (err, rows2) => {
             if (err) throw err;
-            let query3 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 1 ORDER BY IDBILLET ';
             con.query(query3, date, (err, rows3) => {
                 if (err) throw err;
-                let query4 = 'SELECT COUNT(*) AS "value" FROM BILLET WHERE BILLET.DATECREATIONBILLET LIKE ? AND BILLET.ETATBILLET = 2 ORDER BY IDBILLET ';
                 con.query(query4, date, (err, rows4) => {
                     if (err) throw err;
-                    res.render('stats',
-                        {
-                            'nbb': rows,
-                            'nbbnonterm': rows2,
-                            'nbbencours': rows3,
-                            'nbbterm' : rows4,
-                            'mois': months[req.params.month]
+                    con.query(query5, [date, date, date], (err, rows5) => {
+                        if (err) throw err;
+                        con.query(query6, [date, date, date], (err, rows6) => {
+                            if (err) throw err;
+                            con.query(query7, [date, date, date], (err, rows7) => {
+                                if (err) throw err;
+                                con.query(query8, [date, date, date], (err, rows8) => {
+                                    if (err) throw err;
+                                    con.query(query9, [date, date, date], (err, rows9) => {
+                                        if (err) throw err;
+                                        res.render('stats',
+                                            {
+                                                'nbb': rows,
+                                                'nbbnonterm': rows2,
+                                                'nbbencours': rows3,
+                                                'nbbterm': rows4,
+                                                'urg1': rows5,
+                                                'urg2': rows6,
+                                                'urg3': rows7,
+                                                'urg4': rows8,
+                                                'urg5': rows9,
+                                                'mois': months[req.params.month]
+                                            });
+                                        // res.json(rows5)
+                                    });
+                                });
+                            });
                         });
+                    });
                 });
             });
         });
