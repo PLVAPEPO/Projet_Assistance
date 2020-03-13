@@ -1,9 +1,11 @@
 let mysql = require('mysql');
 let con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'projetnodejs'
+    host: 'vps409067.ovh.net',
+    port: '3306',
+    user: 'grp1',
+    password: 'UivAc8mO5vZrIF0w',
+    database: 'grp1',
+    multipleStatements: true
   });
   
   con.connect((err) => {
