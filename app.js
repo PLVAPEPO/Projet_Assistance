@@ -49,57 +49,53 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-var checkLoggedIn = (req, res, next) => req.session.connected ? next(): res.redirect("/");
+var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.redirect("/");
 
-var login = function(req, res, next) {
+var login = function (req, res, next) {
 
   let query = 'SELECT PseudoPersonne, MDPPersonne FROM Personne WHERE PseudoPersonne = ?';
-  
+
   con.query(query, req.body.uname, (err, rows) => {
-      if (err) throw err;
-      if(rows.length === 1 && rows[0].MDPPersonne === req.body.psw)
-      {
-        req.session.connected=true;
-        res.redirect('/billets');
-        //next();
-      }
-      else
-      {
-        res.redirect('/');
-      }      
+    if (err) throw err;
+    if (rows.length === 1 && rows[0].MDPPersonne === req.body.psw) {
+      console.log(rows[0].MDPPersonne,rows[0].PseudoPersonne)
+      req.session.connected = true;
+      res.redirect('/billets');
+      //next();
+    }
+    else {
+      res.redirect('/');
+    }
   });
-  
+
 
 }
-
-
-var logout = function(req, res, next){
-  req.session.destroy(function(err) {
-    if(err) console.log(err);
+var logout = function (req, res, next) {
+  req.session.destroy(function (err) {
+    if (err) console.log(err);
     next();
   })
 }
 
-
-app.use('/login',login,billetsRouter);
-app.use('/logout',logout,indexRouter);
-app.use('/billets',checkLoggedIn, billetsRouter);
+app.use('/login', login, billetsRouter);
+app.use('/logout', logout, indexRouter);
+app.use('/billets', checkLoggedIn, billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet',checkLoggedIn, billetRouter);
-app.use('/recherche',checkLoggedIn, rechercheRouter);
-app.use('/stats',statsRouter);
-app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/billet', checkLoggedIn, billetRouter);
+app.use('/recherche', rechercheRouter);
+app.use('/stats', statsRouter);
+app.use('/ajouterBillet', checkLoggedIn, ajouterBilletRouter);
 app.use('/', indexRouter);
 app.use('/index', indexRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
