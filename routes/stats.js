@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
         if (err) throw err;
 
         
-        res.render('stats', { 'stats': rows, pseudo: req.session.pseudo});
+        res.render('stats', { 'stats': rows,  pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
     });
 });
 
