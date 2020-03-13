@@ -3,7 +3,7 @@
 <% include layout/head %>
 
 <body>
-  <%- include('layout/navbar', {pseudo: pseudo }) %>
+  <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
 
 
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
