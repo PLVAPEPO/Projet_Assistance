@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
-
-  <% include layout/head %>
-
+<% include layout/head %>
 
 <body>
   <%- include('layout/navbar', {pseudo: pseudo }) %>
 
-  
+
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
   <% if (pseudo == 'personnel') { %>
   <p>
+<<<<<<< HEAD
     <form action="/billet/" method="POST">
       <button class="waves-effect waves-light btn blue" type="submit" name="action">
         <i class="material-icons left">check</i>Prendre en charge le
@@ -22,6 +21,12 @@
         <i class="material-icons left">close</i>Refuser le billet
       </button>
     </form>
+=======
+    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">check</i>Prendre en charge le
+      billet</a>
+    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le
+      billet</a>
+>>>>>>> 333af148d94bc3c17b16b8ef6ab18cff1fc5c7e0
 
   </p>
    <% } %>
@@ -74,10 +79,8 @@
       <th>Description</th>
       <td><%= billet[0].MESSAGEBILLET%></td>
     </tr>
-
-
   </table>
+  <% include layout/script %>
 </body>
-<script url="../public/js/main.js"></script>
 
 </html>
