@@ -1,13 +1,15 @@
+require('dotenv').config();
 let con = require('./db')
 var express = require('express');
 var app = express()
 
 
 var createError = require('http-errors');
+const password = process.env.password;
 var session = require('express-session')
 var path = require('path');
 var methodOverride = require('method-override');
-var cookieParser = require('cookie-parser');
+var crypto = require('crypto');
 var HELMET = require('helmet');
 var methodOverride = require('method-override');
 app.use(HELMET());
@@ -36,6 +38,11 @@ var ajouterBilletRouter = require('./routes/ajouterBillet');
 var rechercheRouter = require('./routes/recherche');
 var statsRouter = require('./routes/stats');
 
+//crypting
+const algorithm = 'aes-192-cbc';
+const key = crypto.scryptSync(password, 'salt', 24);
+const iv = Buffer.alloc(16, 0);
+const cipher = crypto.createCipheriv(algorithm, key, iv);
 
 
 // view engine setup
@@ -54,19 +61,21 @@ var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.red
 var login = function (req, res, next) {
 
   let query = 'SELECT PseudoPersonne, MDPPersonne FROM PERSONNE WHERE PseudoPersonne = ?';
-
+  
   con.query(query, req.body.uname, (err, rows) => {
-    if (err) throw err;
-    if (rows.length === 1 && rows[0].MDPPersonne === req.body.psw) {
-      console.log(rows[0].MDPPersonne,rows[0].PseudoPersonne)
-      req.session.connected = true;
-      
-      res.redirect('/billets');
-      //next();
-    }
-    else {
-      res.redirect('/');
-    }
+      if (err) throw err;
+      let encrypted = cipher.update(req.body.psw, 'utf8', 'hex');
+      encrypted += cipher.final('hex');
+      if(rows.length === 1 && rows[0].MDPPersonne === encrypted)
+      {
+        req.session.connected=true;
+        res.redirect('/billets');
+        //next();
+      }
+      else
+      {
+        res.redirect('/');
+      }      
   });
 
 
