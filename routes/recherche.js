@@ -14,7 +14,7 @@ router.get('/', function (req, res) {
 			res.render('recherche', { 'ordis': rows, 'probs': rows2 });
 		});
 			})*/
-	res.redirect('/');
+	res.render('recherche', {pseudo: req.session.pseudo});
 
 	/*
 		let querys = 'SELECT * FROM ORDINATEUR;SELECT * FROM PROBLEME'
@@ -37,7 +37,7 @@ router.post("/", function (req, res) {
 		let recherche = '%' + req.body.rechercheBillet.replace(/\//g, "-") + '%'
 		con.query(query, recherche, (err, rows) => {
 			if (err) throw err;
-			res.render('recherche', { 'billets': rows });
+			res.render('recherche', { 'billets': rows, pseudo: req.session.pseudo});
 		});
 	}
 });

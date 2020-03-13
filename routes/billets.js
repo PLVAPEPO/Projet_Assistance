@@ -13,7 +13,7 @@ router.get('/', function (req, res) {
   let query = 'SELECT * FROM BILLET ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
   con.query(query, (err, rows) => {
     if (err) throw err;
-    res.render('billets', { 'billets': rows });
+    res.render('billets', { 'billets': rows, pseudo: req.session.pseudo});
     // res.json(req.body.uname);
     // console.log(rows[0].PseudoPersonne)
     // console.log(rows[0].MDPPersonne)

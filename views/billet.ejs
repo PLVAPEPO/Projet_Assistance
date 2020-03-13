@@ -5,7 +5,7 @@
 
 
 <body>
-  <% include layout/navbar %>
+  <%- include('layout/navbar', {pseudo: pseudo }) %>
 
   
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
