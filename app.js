@@ -67,7 +67,9 @@ var login = function (req, res, next) {
       if(rows.length === 1 && rows[0].MDPPersonne === encrypted)
       {
         req.session.connected=true;
+        req.session.pseudo = rows[0].PseudoPersonne;
         res.redirect('/billets');
+        //res.redirect('/billets');
         //next();
       }
       else

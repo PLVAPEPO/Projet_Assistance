@@ -5,10 +5,10 @@
 
 
 <body>
-  <% include layout/navbar %>
+  <%- include('layout/navbar', {pseudo: pseudo }) %>
 
 
-  <h1>Tableau de bord</h1>  
+  <h1>Tableau de bord <%= pseudo%></h1>  
   <table id="billets" class="centered responsive-table highlight">
     <thead>
       <tr>
