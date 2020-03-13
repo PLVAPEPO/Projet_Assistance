@@ -94,9 +94,23 @@ var logout = function (req, res, next) {
   })
 }
 
+var PrisEnCharge = function(req, res, next) {
+  //let query = 'Update BILLET set ETATBILLET =\'1\' where idbillet =? '
+  // console.log(rows[0].idbillet)
+//   con.query(query,res.rows. , (err, rows) => {
+//     if (err) throw err;
+//     console.log(rows[0].idbillet)
+//     next();
+    
+// });
+res.redirect('/billets');
+
+}
+
 app.use('/login', login, billetsRouter);
 app.use('/logout', logout, indexRouter);
 app.use('/billets', checkLoggedIn, billetsRouter);
+// app.use('/billets',checkLoggedIn, billetsRouter);
 app.use('/billet', checkLoggedIn, billetRouter);
 app.use('/recherche', rechercheRouter);
 app.use('/stats', statsRouter);

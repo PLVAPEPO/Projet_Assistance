@@ -1,6 +1,5 @@
 let mysql = require('mysql');
 let con = mysql.createConnection({
-
     host: 'vps409067.ovh.net',
     port: '3306',
     user: 'grp1',
