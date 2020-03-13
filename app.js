@@ -16,8 +16,6 @@ app.use(HELMET());
 var logger = require('morgan');
 app.use(logger('dev'));
 
-require('dotenv').config();
-
 
 
 app.use(express.static('public'));
