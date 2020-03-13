@@ -27,6 +27,13 @@ app.use(session({
   cookie: { secure: false }
 }))
 
+var jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
+var $ = require("jquery")(window);
+
 
 var indexRouter = require('./routes/index');
 var billetsRouter = require('./routes/billets');
@@ -53,12 +60,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.redirect("/");
 
 var login = function (req, res, next) {
-
   let query = 'SELECT PseudoPersonne, MDPPersonne FROM PERSONNE WHERE PseudoPersonne = ?';
-
   con.query(query, req.body.uname, (err, rows) => {
       if (err) throw err;
       let cipher = crypto.createCipheriv(algorithm, key, iv);
@@ -90,7 +96,6 @@ var logout = function (req, res, next) {
 app.use('/login', login, billetsRouter);
 app.use('/logout', logout, indexRouter);
 app.use('/billets', checkLoggedIn, billetsRouter);
-// app.use('/billets',checkLoggedIn, billetsRouter);
 app.use('/billet', checkLoggedIn, billetRouter);
 app.use('/recherche', rechercheRouter);
 app.use('/stats', statsRouter);

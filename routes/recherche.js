@@ -4,27 +4,7 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
-	/*
-	let query = 'SELECT * FROM ORDINATEUR';
-	con.query(query, (err, rows) => {
-		if (err) throw err;
-		let query2 = 'SELECT * FROM PROBLEME';
-		con.query(query2, (err, rows2) => {
-			if (err) throw err;
-			res.render('recherche', { 'ordis': rows, 'probs': rows2 });
-		});
-			})*/
 	res.render('recherche', {pseudo: req.session.pseudo});
-
-	/*
-		let querys = 'SELECT * FROM ORDINATEUR;SELECT * FROM PROBLEME'
-	
-		con.query(querys, (err, rows) => {
-			if (err) throw err;
-			// res.json(rows);
-			res.render('recherche', { 'recherches': rows });
-	
-		});*/
 });
 
 router.post("/", function (req, res) {

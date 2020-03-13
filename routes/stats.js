@@ -13,6 +13,8 @@ router.get('/', function (req, res, next) {
     let query = 'SELECT * FROM BILLET ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
     con.query(query, (err, rows) => {
         if (err) throw err;
+
+        
         res.render('stats', { 'stats': rows, pseudo: req.session.pseudo});
     });
 });
