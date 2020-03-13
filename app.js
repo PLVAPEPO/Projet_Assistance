@@ -53,7 +53,7 @@ var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.red
 
 var login = function (req, res, next) {
 
-  let query = 'SELECT PseudoPersonne, MDPPersonne FROM Personne WHERE PseudoPersonne = ?';
+  let query = 'SELECT PseudoPersonne, MDPPersonne FROM PERSONNE WHERE PseudoPersonne = ?';
 
   con.query(query, req.body.uname, (err, rows) => {
     if (err) throw err;

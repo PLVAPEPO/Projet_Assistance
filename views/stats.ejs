@@ -13,20 +13,21 @@
             <ul class="tabs tabs-transparent">
                 <% if(typeof mois !== 'undefined') {%>
                 <li><input type="hidden" value="<%=mois%>"></li>
+                <li><input id="idmois" type="hidden" value="<%=idmois%>"></li>
                 <%}%>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/0">Mois actuel</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/1">Janvier</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/2">Février</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/3">Mars</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/4">Avril</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/5">Mai</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/6">Juin</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/7">Juillet</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/8">Août</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/9">Septembre</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/10">Octobre</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/11">Novembre</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/12">Decembre</a></li>
+                <li class="month tab"><a id="month0" class="hvr-underline-from-center" href="/stats/0">Mois actuel</a></li>
+                <li class="month tab"><a id="month1" class="hvr-underline-from-center" href="/stats/1">Janvier</a></li>
+                <li class="month tab"><a id="month2" class="hvr-underline-from-center" href="/stats/2">Février</a></li>
+                <li class="month tab"><a id="month3" class="hvr-underline-from-center" href="/stats/3">Mars</a></li>
+                <li class="month tab"><a id="month4" class="hvr-underline-from-center" href="/stats/4">Avril</a></li>
+                <li class="month tab"><a id="month5" class="hvr-underline-from-center" href="/stats/5">Mai</a></li>
+                <li class="month tab"><a id="month6" class="hvr-underline-from-center" href="/stats/6">Juin</a></li>
+                <li class="month tab"><a id="month7" class="hvr-underline-from-center" href="/stats/7">Juillet</a></li>
+                <li class="month tab"><a id="month8" class="hvr-underline-from-center" href="/stats/8">Août</a></li>
+                <li class="month tab"><a id="month9" class="hvr-underline-from-center" href="/stats/9">Septembre</a></li>
+                <li class="month tab"><a id="month10" class="hvr-underline-from-center" href="/stats/10">Octobre</a></li>
+                <li class="month tab"><a id="month11" class="hvr-underline-from-center" href="/stats/11">Novembre</a></li>
+                <li class="month tab"><a id="month12" class="hvr-underline-from-center" href="/stats/12">Décembre</a></li>
             </ul>
         </div>
     </nav>
