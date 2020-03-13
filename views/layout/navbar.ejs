@@ -1,7 +1,7 @@
 <ul id="dropdown1" class="dropdown-content #7986cb">
   <li><a class="indigo-text"><%= prenom%> <%= nom %></a></li>
   <li class="divider"></li>
-  <li><a class="indigo-text">Type :
+  <li><a class="indigo-text">Type :<br>
       <%if (role ==1) {%>
       utilisateur
       <%} else if (role == 2) {%>
@@ -33,6 +33,9 @@
           billet</a></li>
       <% if(role == 2 || role == 3) { %>
   <li><a href="/recherche" class="btn indigo"><i class="material-icons left">search</i>Rechercher</a>
+    <%}%>
+    <% if(role == 2 || role == 3) { %>
+  <li><a href="/stats/0" class="btn indigo"><i class="material-icons left">timeline</i>Statistiques</a>
     <%}%>
       </li>
     </ul>
