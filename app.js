@@ -53,13 +53,14 @@ var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.red
 
 var login = function (req, res, next) {
 
-  let query = 'SELECT PseudoPersonne, MDPPersonne FROM Personne WHERE PseudoPersonne = ?';
+  let query = 'SELECT PseudoPersonne, MDPPersonne FROM PERSONNE WHERE PseudoPersonne = ?';
 
   con.query(query, req.body.uname, (err, rows) => {
     if (err) throw err;
     if (rows.length === 1 && rows[0].MDPPersonne === req.body.psw) {
       console.log(rows[0].MDPPersonne,rows[0].PseudoPersonne)
       req.session.connected = true;
+      
       res.redirect('/billets');
       //next();
     }
