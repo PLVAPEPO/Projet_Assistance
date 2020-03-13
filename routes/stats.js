@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 router.get('/:month', function (req, res, next) {
     let months = {
         '1': 'Janvier',
-        '2': 'Fevrier',
+        '2': 'Février',
         '3': 'Mars',
         '4': 'Avril',
         '5': 'Mai',
@@ -30,7 +30,7 @@ router.get('/:month', function (req, res, next) {
         '9': 'Septembre',
         '10': 'Octobre',
         '11': 'Novembre',
-        '12': 'Decembre',
+        '12': 'Décembre',
     }
     let date = ''
     if (req.params.month == 0) {
@@ -58,7 +58,7 @@ router.get('/:month', function (req, res, next) {
 
     con.query(querys, args, (err, rows) => {
         if (err) throw err;
-        res.render('stats', { 'stats': rows, 'mois': months[req.params.month]});
+        res.render('stats', { 'stats': rows, 'mois': months[req.params.month] , 'idmois' : req.params.month});
     });
 });
 
