@@ -14,6 +14,11 @@ router.get('/', function (req, res) {
   con.query(query, (err, rows) => {
     if (err) throw err;
     res.render('billets', { 'billets': rows });
+    // res.json(req.body.uname);
+    // console.log(rows[0].PseudoPersonne)
+    // console.log(rows[0].MDPPersonne)
+    // res.json(rows[0].PseudoPersonne);
+
   });
 });
 
