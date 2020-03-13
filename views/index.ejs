@@ -9,52 +9,41 @@
 </head>
 
 <body>
-  <div class="row">
-    <div>
-      <h1>Demande d'aide </h1>
-      <p>Demande d'assistance du service informatique et logistique.<br>Type de problêmes pouvant être envoyés :
-        Matériel,
-        Logiciel ou Utilisateur.</p>
-    </div>
-    <form action="/login" method="POST">
-      <div>
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
+  <main class=" center">
+    <div class="section"></div>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
+    <h5 class="indigo-text">Demande d'aide - connexion</h5>
+    <div class="section"></div>
 
-        <button type="submit" class="btn blue">S'identifier</button>
+    <div class="container">
+      <div class="z-depth-1 grey lighten-4 row"
+        style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+        <form action="/login" method="POST">
+          <div class='row'>
+            <div class='col s12'>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='input-field col s12'>
+              <label for="uname"><b>Pseudo</b></label>
+              <input type="text" placeholder="Votre pseudo" name="uname" required>
+            </div>
+          </div>
+
+          <div class='row'>
+            <div class='input-field col s12'>
+              <label for="psw"><b>Mot de passe</b></label>
+              <input type="password" placeholder="Votre mot de passe" name="psw" required>
+            </div>
+          </div>
+          <br />
+          <div class='row center'>
+            <button type="submit" class='col s12 btn btn-large waves-effect indigo'>S'identifier</button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
-
-  <div>
-    <h5>Identifiants disponibles</h5>
-    <table id="personnes" class="centered responsive-table highlight">
-      <thead>
-        <tr>
-          <th>Date de création du billet</th>
-          <th>Titre du billet</th>
-          <th>Priorité</th>
-          <th>Id</th>
-          <th>Détails</th>
-          <th>Etat du billet</th>
-        </tr>
-      </thead>
-      <% if(typeof personnes != undefined) {%>
-      <tbody>
-        <% personnes.forEach(function(personne) {%>
-        <tr>
-          <td>
-            <%= personne.PRENOMPERSONNE %>
-          </td>
-        </tr>
-        <% }); %>
-      </tbody>
-      <% }%>
-    </table>
-  </div>
+    </div>
+  </main>
   <% include layout/script %>
 </body>
 
