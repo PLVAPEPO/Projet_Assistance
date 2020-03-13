@@ -1,29 +1,42 @@
 <ul id="dropdown1" class="dropdown-content #7986cb">
-  <li><a class="indigo-text"><%= pseudo %></a></li>
+  <li><a class="indigo-text"><%= prenom%> <%= nom %></a></li>
+  <li class="divider"></li>
+  <li><a class="indigo-text">Type :<br>
+      <%if (role ==1) {%>
+      utilisateur
+      <%} else if (role == 2) {%>
+      personnel
+      <%} else if (role == 3) {%>
+      administrateur
+      <%}%>
+    </a></li>
   <li class="divider"></li>
   <li><a href="/billets">Tableau de bord</a></li>
   <li><a href="/">Se déconnecter</a></li>
-
 </ul>
 <nav>
   <div class="nav-wrapper indigo">
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li>
-        <a class="brand right dropdown-trigger" data-target="dropdown1">
-          Connecté
+        <a class="brand right dropdown-trigger" data-target="dropdown1">Connecté
           <i class="material-icons right">person arrow_drop_down</i>
         </a>
       </li>
-
     </ul>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
       <li><a href="/" class="waves-effect waves-light btn indigo"><i
             class="material-icons left">keyboard_arrow_left</i>Revenir à l'Accueil</a></li>
       <li><a href="/billets" class="btn indigo"><i class="material-icons left">dashboard</i>Tableau de
-          bord</a>
+          bord</a></li>
       <li><a href="/ajouterBillet" class="btn indigo"><i class="material-icons left">add</i>Ajouter un
-          billet</a>
-      <li><a href="/recherche" class="btn indigo"><i class="material-icons left">search</i>Rechercher</a>
+          billet</a></li>
+      <% if(role == 2 || role == 3) { %>
+  <li><a href="/recherche" class="btn indigo"><i class="material-icons left">search</i>Rechercher</a>
+    <%}%>
+    <% if( role == 3) { %>
+  <li><a href="/stats/0" class="btn indigo"><i class="material-icons left">timeline</i>Statistiques</a>
+    <%}%>
       </li>
     </ul>
   </div>

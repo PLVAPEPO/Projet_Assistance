@@ -7,8 +7,13 @@ router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     con.query(query, req.params.id, (err, rows) => {
+<<<<<<< HEAD
         if (err) throw err;
         res.render('billet', { 'billet': rows, pseudo: req.session.pseudo });
+=======
+        if (err) throw err;       
+        res.render('billet', { 'billet': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
+>>>>>>> 6bc5555989a0423ae3cadf071a27d60c0c12f15d
     });
 });
 

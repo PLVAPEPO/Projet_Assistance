@@ -4,7 +4,7 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
-	res.render('recherche', {pseudo: req.session.pseudo});
+	res.render('recherche', { pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
 });
 
 router.post("/", function (req, res) {
