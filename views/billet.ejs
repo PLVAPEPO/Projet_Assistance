@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
-
-  <% include layout/head %>
-
+<% include layout/head %>
 
 <body>
   <%- include('layout/navbar', {pseudo: pseudo }) %>
 
-  
+
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
   <p>
     <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">check</i>Prendre en charge le
       billet</a>
-    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le billet</a>
+    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le
+      billet</a>
 
   </p>
 
@@ -67,8 +66,6 @@
     </tr>
   </table>
   <% include layout/script %>
-
 </body>
-<script url="../public/js/main.js"></script>
 
 </html>
