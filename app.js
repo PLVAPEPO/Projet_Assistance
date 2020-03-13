@@ -17,7 +17,6 @@ var logger = require('morgan');
 app.use(logger('dev'));
 
 
-
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.set('trust proxy', 1) // trust first proxy
@@ -40,7 +39,7 @@ var statsRouter = require('./routes/stats');
 const algorithm = 'aes-192-cbc';
 const key = crypto.scryptSync(password, 'salt', 24);
 const iv = Buffer.alloc(16, 0);
-const cipher = crypto.createCipheriv(algorithm, key, iv);
+
 
 
 // view engine setup
@@ -59,9 +58,10 @@ var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.red
 var login = function (req, res, next) {
 
   let query = 'SELECT PseudoPersonne, MDPPersonne FROM PERSONNE WHERE PseudoPersonne = ?';
-  
+
   con.query(query, req.body.uname, (err, rows) => {
       if (err) throw err;
+      let cipher = crypto.createCipheriv(algorithm, key, iv);
       let encrypted = cipher.update(req.body.psw, 'utf8', 'hex');
       encrypted += cipher.final('hex');
       if(rows.length === 1 && rows[0].MDPPersonne === encrypted)

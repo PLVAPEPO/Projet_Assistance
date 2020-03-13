@@ -9,13 +9,15 @@
 
   
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
+  <% if (pseudo == 'personnel') { %>
   <p>
+    
     <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">check</i>Prendre en charge le
       billet</a>
     <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">close</i>Refuser le billet</a>
 
   </p>
-
+   <% } %>
   <table style="width:100%">
     <!-- <tr>
         <th>ID du BILLET</th>
