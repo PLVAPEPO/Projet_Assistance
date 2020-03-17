@@ -9,13 +9,9 @@
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
   <% if (pseudo == 'personnel') { %>
   <p>
-<<<<<<< HEAD
-    <form action="/billet/<%= billet[0].IDBILLET %>" method="POST" >
-=======
-    <form action="/billet/" method="POST">
->>>>>>> 485d86802c24e501761a464d793fa262c0af257c
+    <form action="/billet/choix/<%= billet[0].IDBILLET %>" method="POST">
       <input type="hidden" name="accept" value="accept">
-      <button class="waves-effect waves-light btn blue" type="submit">
+      <button class="waves-effect waves-light btn blue" type="submit" >
         <i class="material-icons left">check</i>Prendre en charge le
         billet
       </button>
@@ -26,16 +22,13 @@
         <i class="material-icons left">close</i>Refuser le billet
       </button>
     </form>
-<<<<<<< HEAD
-=======
     <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">check</i>Prendre en charge le
       billet</a>
     <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le
       billet</a>
->>>>>>> 485d86802c24e501761a464d793fa262c0af257c
 
   </p>
-  <% } %>
+   <% } %>
   <table style="width:100%">
     <tr>
       <th>Titre</th>
@@ -69,10 +62,11 @@
       <% } %>
 
       <th>Pièce Jointe</th>
-      <% if (!billet[0].PIECEJOINTEBILLET) { %>
-        <td>Pas de pièce jointe</td>
+      <% if (!billet[0].URGENCEBILLET) { %>
+      <td>Pas de pièce jointe</td>
       <% } else  {%>
-        <td><img class="pieceJointe" src="<%= billet[0].PIECEJOINTEBILLET%>"></td>
+      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
+      <td>EN COURS DE REALISATION</td>
       <% } %>
     </tr>
 
@@ -81,10 +75,10 @@
       <td><%= billet[0].MESSAGEBILLET%></td>
     </tr>
   </table>
+
   <h5>Commentaires :</h5>
-  <form action="/billet/ajout" method="POST">
-    <ul class="collection">
-      <% if(billet[0].IDPERSONNE == idpers) {%>
+  <ul class="collection">
+    <form action="/billet/ajout" method="POST">
       <li class="collection-item">
         <input placeholder="Ajouter le titre du commentaire" name="titrecommentaire" type="text" class="validate"
           data-length="120" id="input_text" required>
@@ -95,22 +89,24 @@
           <i class="material-icons left">add_box</i>Ajouter
         </button>
       </li>
-      <%} %>
+    </form>
+    <% if(billet[0].IDPERSONNE == idpers) {%>
 
-      <% if(typeof comms != undefined && comms != "") {%>
-      <% comms.forEach(function(comm) {%>
-      <li class="collection-item">
-        <h6>
-          <%= comm.DATECREATIONBILLET.getDate()%>/<%= comm.DATECREATIONBILLET.getUTCMonth()+1%>/<%= comm.DATECREATIONBILLET.getUTCFullYear()%>
-          : <%= comm.TITRECOMMENTAIRE %></h6>
-        <%= comm.LIBELLECOMMENTAIRE %>
-      </li>
-      <%}) %>
-      <% } else {%>
-      <li class="collection-item">Il n'y a aucun commentaire</li>
-      <% } %>
-    </ul>
-  </form>
+    <%} %>
+    
+    <% if(typeof comms != undefined && comms != "") {%>
+    <% comms.forEach(function(comm) {%>
+    <li class="collection-item">
+      <h6>
+        <%= comm.DATECREATIONBILLET.getDate()%>/<%= comm.DATECREATIONBILLET.getUTCMonth()+1%>/<%= comm.DATECREATIONBILLET.getUTCFullYear()%>
+        : <%= comm.TITRECOMMENTAIRE %></h6>
+      <%= comm.LIBELLECOMMENTAIRE %>
+    </li>
+    <%}) %>
+    <% } else {%>
+    <li class="collection-item">Il n'y a aucun commentaire</li>
+    <% } %>
+  </ul>
   <% include layout/script %>
 </body>
 

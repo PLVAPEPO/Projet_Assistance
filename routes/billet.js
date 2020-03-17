@@ -18,7 +18,7 @@ router.get('/:id', function (req, res, next) {
 
 });
 
-router.post("/:id", function (req, res) {
+router.post("/choix/:id", function (req, res) {
     if (req.body.accept == 'accept') {
         con.query("Update BILLET set ETATBILLET ='1' where idbillet = ?", idbill, (err, rows) => {
             if (err) throw err;
@@ -85,12 +85,11 @@ router.post("/:id", function (req, res) {
     {
 
     }
-    else
-        res.redirect('/billets');
-
+    
 });
 
 router.post("/ajout", function (req, res) {
+    // res.json(req.body)
     var d2 = new Date();
     let dateY2 = d2.getUTCFullYear()
     let dateM2 = d2.getUTCMonth() + 1
@@ -99,17 +98,11 @@ router.post("/ajout", function (req, res) {
         dateM2 = '0' + dateM2;
     }
     let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
-    // res.json(req.body)
     let queryAjout = "INSERT INTO COMMENTAIRE(IDBILLET, TITRECOMMENTAIRE, LIBELLECOMMENTAIRE, DATECOMMENTAIRE) VALUES ('" + req.body.idbilletajout + "','" + req.body.titrecommentaire + "','" + req.body.libellecommentaire + "','" + dateC2 + "') "
     con.query(queryAjout, (err, rows) => {
         if (err) throw err;
         res.redirect('/billet/' + req.body.idbilletajout)
     })
-});
-
-router.post("/", function (req, res) {
-
-    res.redirect('/billets');
 });
 
 

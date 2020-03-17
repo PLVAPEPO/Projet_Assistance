@@ -113,7 +113,7 @@ app.use('/login', login, billetsRouter);
 app.use('/logout', logout, indexRouter);
 app.use('/billets', checkLoggedIn, billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet/', checkLoggedIn, billetRouter);
+app.use('/billet/', billetRouter);
 
 app.use('/billet',checkLoggedIn, billetRouter);
 app.use('/recherche',checkLoggedIn, rechercheRouter);
