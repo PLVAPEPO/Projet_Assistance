@@ -40,8 +40,10 @@
       </div>
 
       <div class="input-field">
-        <label for="pjBillet">Pièce-jointe</label><br><br>
-        <input name="pjBillet" type="file" class="validate btn blue">
+        <form action="/upload" method="post" enctype="multipart/form-data"></form>
+          <label for="pjBillet">Pièce-jointe</label><br><br>
+          <input name="piecejointebillet" type="file" class="validate btn blue">
+        </form>
       </div>
 
       <div class="input-field">

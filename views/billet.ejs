@@ -53,11 +53,10 @@
       <% } %>
 
       <th>Pièce Jointe</th>
-      <% if (!billet[0].URGENCEBILLET) { %>
-      <td>Pas de pièce jointe</td>
+      <% if (!billet[0].PIECEJOINTEBILLET) { %>
+        <td>Pas de pièce jointe</td>
       <% } else  {%>
-      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
-      <td>EN COURS DE REALISATION</td>
+        <td><img class="pieceJointe" src="<%= billet[0].PIECEJOINTEBILLET%>"></td>
       <% } %>
     </tr>
 
@@ -65,7 +64,6 @@
       <th>Description</th>
       <td><%= billet[0].MESSAGEBILLET%></td>
     </tr>
-
 
   </table>
 </body>

@@ -40,6 +40,7 @@ router.post("/", function (req, res) {
 				'URGENCEBILLET': req.body.urgenceBillet,
 				'MESSAGEBILLET': req.body.messageBillet,
 				'IDORDINATEUR': req.body.posteOrdinateur,
+				'PIECEJOINTEBILLET': '/images/'+ req.body.piecejointebillet,
 				'ETATBILLET': 0,
 				'DATECREATIONBILLET': dateC
 			},
