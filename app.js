@@ -70,6 +70,7 @@ var login = function (req, res, next) {
       let cipher = crypto.createCipheriv(algorithm, key, iv);
       let encrypted = cipher.update(req.body.psw, 'utf8', 'hex');
       encrypted += cipher.final('hex');
+      console.log(encrypted)
       if(rows.length === 1 && rows[0].MDPPersonne === encrypted)
       {
         req.session.connected=true;
@@ -112,10 +113,17 @@ app.use('/login', login, billetsRouter);
 app.use('/logout', logout, indexRouter);
 app.use('/billets', checkLoggedIn, billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet', billetRouter);
+app.use('/billet/', checkLoggedIn, billetRouter);
+
+app.use('/billet',checkLoggedIn, billetRouter);
+app.use('/recherche',checkLoggedIn, rechercheRouter);
+app.use('/stats',checkLoggedIn,statsRouter);
+app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/billet', checkLoggedIn, billetRouter);
 app.use('/recherche', rechercheRouter);
 app.use('/stats', statsRouter);
 app.use('/ajouterBillet', checkLoggedIn, ajouterBilletRouter);
+
 app.use('/', indexRouter);
 app.use('/index', indexRouter);
 

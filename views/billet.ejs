@@ -9,22 +9,30 @@
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
   <% if (pseudo == 'personnel') { %>
   <p>
+<<<<<<< HEAD
+    <form action="/billet/<%= billet[0].IDBILLET %>" method="POST" >
+=======
     <form action="/billet/" method="POST">
+>>>>>>> 485d86802c24e501761a464d793fa262c0af257c
       <input type="hidden" name="accept" value="accept">
       <button class="waves-effect waves-light btn blue" type="submit">
         <i class="material-icons left">check</i>Prendre en charge le
         billet
       </button>
     </form>
-    <form action="/billet" method="POST">
+    <form action="/billet/<%= billet[0].IDBILLET %>" method="POST">
+      <input type="hidden" name="refus" value="refus">
       <button class="waves-effect waves-light btn blue" type="submit">
         <i class="material-icons left">close</i>Refuser le billet
       </button>
     </form>
+<<<<<<< HEAD
+=======
     <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">check</i>Prendre en charge le
       billet</a>
     <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le
       billet</a>
+>>>>>>> 485d86802c24e501761a464d793fa262c0af257c
 
   </p>
   <% } %>
@@ -61,11 +69,10 @@
       <% } %>
 
       <th>Pièce Jointe</th>
-      <% if (!billet[0].URGENCEBILLET) { %>
-      <td>Pas de pièce jointe</td>
+      <% if (!billet[0].PIECEJOINTEBILLET) { %>
+        <td>Pas de pièce jointe</td>
       <% } else  {%>
-      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
-      <td>EN COURS DE REALISATION</td>
+        <td><img class="pieceJointe" src="<%= billet[0].PIECEJOINTEBILLET%>"></td>
       <% } %>
     </tr>
 

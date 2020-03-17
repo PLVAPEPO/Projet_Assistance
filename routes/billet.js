@@ -15,15 +15,17 @@ router.get('/:id', function (req, res, next) {
             res.render('billet', { 'billet': rows, 'comms': rows2, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
         });
     });
+
 });
 
-router.post("/", function (req, res) {
+router.post("/:id", function (req, res) {
     if (req.body.accept == 'accept') {
         con.query("Update BILLET set ETATBILLET ='1' where idbillet = ?", idbill, (err, rows) => {
             if (err) throw err;
 
             // res.json(req.body.titreBillet);
         });
+
         con.query("select IDPERSONNE FROM PERSONNE WHERE PseudoPersonne =?", req.session.pseudo, (err, rows) => {
             if (err) throw err;
             idpers = rows[0].IDPERSONNE
@@ -60,15 +62,32 @@ router.post("/", function (req, res) {
                     },
                     (err, rows) => {
                         if (err) throw err;
-                        // res.json(req.body.titreBillet);
+                        let querys = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(ac.IDINTERVENTION) '
+                        querys += ' FROM PERSONNE p'
+                        querys += ' JOIN A_UNE a on a.idpersonne=p.idpersonne'
+                        querys += ' JOIN ACCEPTE ac on ac.idpersonne=p.idpersonne'
+                        querys += ' JOIN QUALIFICATION q on q.idqualification=a.idqualification'
+                        querys += ' JOIN RESOUT r on q.idqualification=r.idqualification'
+                        querys += ' JOIN PROBLEME pb on pb.idprobleme=r.idprobleme'
+                        querys += ' JOIN BILLET b on b.idprobleme=pb.idprobleme'
+                        querys += ' WHERE idbillet = ?'
+                        querys += ' GROUP BY p.IDPERSONNE, p.NOMPERSONNE;'
+                        con.query(querys,req.params.id,(err, rows) => {
+                            if (err) throw err;
+                            res.render('billet',{'billet':rows})
+                        });
                     });
-            })
-
-        }),
-
-
-            res.redirect('/billets');
+            });
+        });
+           
     }
+    else if(req.body.accept == "refus")
+    {
+
+    }
+    else
+        res.redirect('/billets');
+
 });
 
 router.post("/ajout", function (req, res) {
