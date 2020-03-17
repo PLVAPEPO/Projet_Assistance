@@ -9,8 +9,8 @@ function pad(n, width, z) {
 
 router.get('/', function (req, res) {
   var d = new Date();
-  let query = 'SELECT * FROM BILLET ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
-  con.query(query, (err, rows) => {
+  let query = 'SELECT * FROM BILLET WHERE IDPERSONNE = ? ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
+  con.query(query, req.session.idPersonne , (err, rows) => {
     if (err) throw err;
     res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
   });

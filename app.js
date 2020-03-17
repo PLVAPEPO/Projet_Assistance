@@ -27,12 +27,12 @@ app.use(session({
   cookie: { secure: false }
 }))
 
-var jsdom = require("jsdom");
+/*var jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
-var $ = require("jquery")(window);
+var $ = require("jquery")(window);*/
 
 
 var indexRouter = require('./routes/index');
@@ -64,7 +64,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.redirect("/");
 
 var login = function (req, res, next) {
-  let query = 'SELECT PseudoPersonne, MDPPersonne, PrenomPersonne, NomPersonne, RolePersonne FROM PERSONNE WHERE PseudoPersonne = ?';
+  let query = 'SELECT IdPersonne, PseudoPersonne, MDPPersonne, PrenomPersonne, NomPersonne, RolePersonne FROM PERSONNE WHERE PseudoPersonne = ?';
   con.query(query, req.body.uname, (err, rows) => {
       if (err) throw err;
       let cipher = crypto.createCipheriv(algorithm, key, iv);
@@ -74,6 +74,7 @@ var login = function (req, res, next) {
       if(rows.length === 1 && rows[0].MDPPersonne === encrypted)
       {
         req.session.connected=true;
+        req.session.idPersonne = rows[0].IdPersonne;
         req.session.pseudo = rows[0].PseudoPersonne;
         req.session.prenom = rows[0].PrenomPersonne;
         req.session.nom = rows[0].NomPersonne;
@@ -112,10 +113,20 @@ app.use('/login', login, billetsRouter);
 app.use('/logout', logout, indexRouter);
 app.use('/billets', checkLoggedIn, billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
+<<<<<<< HEAD
 app.use('/billet/', checkLoggedIn, billetRouter);
+=======
+
+app.use('/billet',checkLoggedIn, billetRouter);
+app.use('/recherche',checkLoggedIn, rechercheRouter);
+app.use('/stats',checkLoggedIn,statsRouter);
+app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/billet', checkLoggedIn, billetRouter);
+>>>>>>> 485d86802c24e501761a464d793fa262c0af257c
 app.use('/recherche', rechercheRouter);
 app.use('/stats', statsRouter);
 app.use('/ajouterBillet', checkLoggedIn, ajouterBilletRouter);
+
 app.use('/', indexRouter);
 app.use('/index', indexRouter);
 
