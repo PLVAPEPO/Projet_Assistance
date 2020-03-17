@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
 		let query2 = 'SELECT * FROM PROBLEME';
 		con.query(query2, (err, rows2) => {
 			if (err) throw err;
-			res.render('ajouterBillet', { 'ordis': rows, 'probs': rows2 });
+			res.render('ajouterBillet', { 'ordis': rows, 'probs': rows2, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
 		});
 	});
 
@@ -42,7 +42,7 @@ router.post("/", function (req, res) {
 				'IDORDINATEUR': req.body.posteOrdinateur,
 				'PIECEJOINTEBILLET': '/images/'+ req.body.piecejointebillet,
 				'ETATBILLET': 0,
-				'DATECREATIONBILLET': dateC
+				'DATECREATIONBILLET': dateC,
 			},
 			(err, rows) => {
 				if (err) throw err;

@@ -4,27 +4,7 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
-	/*
-	let query = 'SELECT * FROM ORDINATEUR';
-	con.query(query, (err, rows) => {
-		if (err) throw err;
-		let query2 = 'SELECT * FROM PROBLEME';
-		con.query(query2, (err, rows2) => {
-			if (err) throw err;
-			res.render('recherche', { 'ordis': rows, 'probs': rows2 });
-		});
-			})*/
-	res.redirect('/');
-
-	/*
-		let querys = 'SELECT * FROM ORDINATEUR;SELECT * FROM PROBLEME'
-	
-		con.query(querys, (err, rows) => {
-			if (err) throw err;
-			// res.json(rows);
-			res.render('recherche', { 'recherches': rows });
-	
-		});*/
+	res.render('recherche', { pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
 });
 
 router.post("/", function (req, res) {
@@ -37,7 +17,7 @@ router.post("/", function (req, res) {
 		let recherche = '%' + req.body.rechercheBillet.replace(/\//g, "-") + '%'
 		con.query(query, recherche, (err, rows) => {
 			if (err) throw err;
-			res.render('recherche', { 'billets': rows });
+			res.render('recherche', { 'billets': rows, pseudo: req.session.pseudo});
 		});
 	}
 });

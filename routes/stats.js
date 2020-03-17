@@ -13,7 +13,12 @@ router.get('/', function (req, res, next) {
     let query = 'SELECT * FROM BILLET ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
     con.query(query, (err, rows) => {
         if (err) throw err;
-        res.render('stats', { 'stats': rows });
+        res.render('stats', {
+            'stats': rows,  
+            pseudo: req.session.pseudo, 
+            role : req.session.role, 
+            prenom : req.session.prenom,
+            nom: req.session.nom});
     });
 });
 
@@ -36,6 +41,7 @@ router.get('/:month', function (req, res, next) {
     if (req.params.month == 0) {
         var d = new Date();
         date = d.getUTCMonth() + 1
+        req.params.month = date
         if (date < 10) {date = "2020-0" + date + "-%"}
         else {date = "2020-" + date + "-%"}
     }
@@ -58,7 +64,14 @@ router.get('/:month', function (req, res, next) {
 
     con.query(querys, args, (err, rows) => {
         if (err) throw err;
-        res.render('stats', { 'stats': rows, 'mois': months[req.params.month] , 'idmois' : req.params.month});
+        res.render('stats', {
+            'stats': rows,
+            'mois': months[req.params.month],
+            'idmois' : req.params.month, 
+            pseudo: req.session.pseudo,
+            role : req.session.role,
+            prenom : req.session.prenom,
+            nom: req.session.nom});
     });
 });
 

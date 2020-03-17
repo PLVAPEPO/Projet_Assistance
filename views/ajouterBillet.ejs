@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 
-  <% include layout/head %>
+<% include layout/head %>
 
 <body>
 
-  <% include layout/navbar %>
+  <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
 
   <h1>Ajouter un billet</h1>
 
@@ -40,10 +40,15 @@
       </div>
 
       <div class="input-field">
+<<<<<<< HEAD
         <form action="/upload" method="post" enctype="multipart/form-data"></form>
           <label for="pjBillet">Pièce-jointe</label><br><br>
           <input name="piecejointebillet" type="file" class="validate btn blue">
         </form>
+=======
+        <label for="pjBillet">Pièce-jointe</label><br><br>
+        <input name="pjBillet" type="file" class="validate btn indigo">
+>>>>>>> 5569e5bbdf25fd87e7151e7f5bfea49dc99e17ea
       </div>
 
       <div class="input-field">
@@ -55,14 +60,12 @@
           <% }); %>
         </select>
       </div>
-
-
-
-      <button class="waves-effect waves-light btn blue" type="submit" name="action">
+      <button class="waves-effect waves-light btn indigo" type="submit" name="action">
         <i class="material-icons left">add_box</i>Ajouter un billet
       </button>
     </form>
   </div>
+  <% include layout/script %>
 
 </body>
 

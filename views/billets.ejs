@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html>
-
   <% include layout/head %>
-
-
 <body>
-  <% include layout/navbar %>
-
-
+  <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
   <h1>Tableau de bord</h1>  
+  <% if(typeof billets != undefined && billets != "") {%>
+  <h2>Mes billets</h2>
   <table id="billets" class="centered responsive-table highlight">
     <thead>
       <tr>
@@ -20,7 +17,6 @@
         <th>Etat du billet</th>
       </tr>
     </thead>
-    <% if(typeof billets != undefined) {%>
     <tbody>
       <% billets.forEach(function(billet) {%>
       <tr>
@@ -32,7 +28,7 @@
         <td><%= billet.URGENCEBILLET %></td>
         <td><%= billet.IDBILLET %></td>
         <td>
-          <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn blue"><i
+          <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn indigo"><i
               class="material-icons">zoom_in</i> </a>
         </td>
         <% if (billet.ETATBILLET == 0) { %>
@@ -45,8 +41,12 @@
       </tr>
       <% }); %>
     </tbody>
-    <% }%>
   </table>
+  <% } else {%>
+    <h2>Vous n'avez pas de billet</h2>
+  <%}%>
+  
+  <% include layout/script %>
 </body>
 
 </html>
