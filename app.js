@@ -1,21 +1,20 @@
+require('dotenv').config();
 let con = require('./db')
 var express = require('express');
 var app = express()
 
 
 var createError = require('http-errors');
+const password = process.env.password;
 var session = require('express-session')
 var path = require('path');
 var methodOverride = require('method-override');
-var cookieParser = require('cookie-parser');
+var crypto = require('crypto');
 var HELMET = require('helmet');
 var methodOverride = require('method-override');
 app.use(HELMET());
 var logger = require('morgan');
 app.use(logger('dev'));
-
-require('dotenv').config();
-
 
 
 app.use(express.static('public'));
@@ -28,6 +27,13 @@ app.use(session({
   cookie: { secure: false }
 }))
 
+var jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
+var $ = require("jquery")(window);
+
 
 var indexRouter = require('./routes/index');
 var billetsRouter = require('./routes/billets');
@@ -35,6 +41,11 @@ var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
 var rechercheRouter = require('./routes/recherche');
 var statsRouter = require('./routes/stats');
+
+//crypting
+const algorithm = 'aes-192-cbc';
+const key = crypto.scryptSync(password, 'salt', 24);
+const iv = Buffer.alloc(16, 0);
 
 
 
@@ -49,57 +60,72 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-var checkLoggedIn = (req, res, next) => req.session.connected ? next(): res.redirect("/");
 
-var login = function(req, res, next) {
+var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.redirect("/");
 
-  let query = 'SELECT PseudoPersonne, MDPPersonne FROM Personne WHERE PseudoPersonne = ?';
-  
+var login = function (req, res, next) {
+  let query = 'SELECT PseudoPersonne, MDPPersonne, PrenomPersonne, NomPersonne, RolePersonne FROM PERSONNE WHERE PseudoPersonne = ?';
   con.query(query, req.body.uname, (err, rows) => {
       if (err) throw err;
-      if(rows.length === 1 && rows[0].MDPPersonne === req.body.psw)
+      let cipher = crypto.createCipheriv(algorithm, key, iv);
+      let encrypted = cipher.update(req.body.psw, 'utf8', 'hex');
+      encrypted += cipher.final('hex');
+      if(rows.length === 1 && rows[0].MDPPersonne === encrypted)
       {
         req.session.connected=true;
+        req.session.pseudo = rows[0].PseudoPersonne;
+        req.session.prenom = rows[0].PrenomPersonne;
+        req.session.nom = rows[0].NomPersonne;
+        req.session.role = rows[0].RolePersonne;
         res.redirect('/billets');
-        //next();
       }
       else
       {
         res.redirect('/');
       }      
   });
-  
+
 
 }
-
-
-var logout = function(req, res, next){
-  req.session.destroy(function(err) {
-    if(err) console.log(err);
+var logout = function (req, res, next) {
+  req.session.destroy(function (err) {
+    if (err) console.log(err);
     next();
   })
 }
 
+var PrisEnCharge = function(req, res, next) {
+  //let query = 'Update BILLET set ETATBILLET =\'1\' where idbillet =? '
+  // console.log(rows[0].idbillet)
+//   con.query(query,res.rows. , (err, rows) => {
+//     if (err) throw err;
+//     console.log(rows[0].idbillet)
+//     next();
+    
+// });
+res.redirect('/billets');
 
-app.use('/login',login,billetsRouter);
-app.use('/logout',logout,indexRouter);
-app.use('/billets',checkLoggedIn, billetsRouter);
+}
+
+app.use('/login', login, billetsRouter);
+app.use('/logout', logout, indexRouter);
+app.use('/billets', checkLoggedIn, billetsRouter);
 // app.use('/billets',checkLoggedIn, billetsRouter);
-app.use('/billet',checkLoggedIn, billetRouter);
-app.use('/recherche',checkLoggedIn, rechercheRouter);
-app.use('/stats',statsRouter);
-app.use('/ajouterBillet',checkLoggedIn, ajouterBilletRouter);
+app.use('/billet', checkLoggedIn, billetRouter);
+app.use('/recherche', rechercheRouter);
+app.use('/stats', statsRouter);
+app.use('/ajouterBillet', checkLoggedIn, ajouterBilletRouter);
 app.use('/', indexRouter);
 app.use('/index', indexRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

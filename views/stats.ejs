@@ -5,33 +5,35 @@
 
 
 <body>
-    <% include layout/navbar%>
+    <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
 
     <h1>Statistiques</h1>
     <nav class="nav-extended">
-        <div class="nav-content blue">
+        <div class="nav-content indigo">
             <ul class="tabs tabs-transparent">
                 <% if(typeof mois !== 'undefined') {%>
-                    <li><input type="hidden" value="<%=mois%>"></li>
+                <li><input type="hidden" value="<%=mois%>"></li>
+                <li><input id="idmois" type="hidden" value="<%=idmois%>"></li>
                 <%}%>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/0">Mois actuel</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/1">Janvier</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/2">Février</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/3">Mars</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/4">Avril</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/5">Mai</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/6">Juin</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/7">Juillet</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/8">Août</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/9">Septembre</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/10">Octobre</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/11">Novembre</a></li>
-                <li class="month tab"><a class="hvr-underline-from-center" href="/stats/12">Decembre</a></li>
+                <li class="month tab"><a id="month0" class="hvr-underline-from-center" href="/stats/0">Mois actuel</a></li>
+                <li class="month tab"><a id="month1" class="hvr-underline-from-center" href="/stats/1">Janvier</a></li>
+                <li class="month tab"><a id="month2" class="hvr-underline-from-center" href="/stats/2">Février</a></li>
+                <li class="month tab"><a id="month3" class="hvr-underline-from-center" href="/stats/3">Mars</a></li>
+                <li class="month tab"><a id="month4" class="hvr-underline-from-center" href="/stats/4">Avril</a></li>
+                <li class="month tab"><a id="month5" class="hvr-underline-from-center" href="/stats/5">Mai</a></li>
+                <li class="month tab"><a id="month6" class="hvr-underline-from-center" href="/stats/6">Juin</a></li>
+                <li class="month tab"><a id="month7" class="hvr-underline-from-center" href="/stats/7">Juillet</a></li>
+                <li class="month tab"><a id="month8" class="hvr-underline-from-center" href="/stats/8">Août</a></li>
+                <li class="month tab"><a id="month9" class="hvr-underline-from-center" href="/stats/9">Septembre</a></li>
+                <li class="month tab"><a id="month10" class="hvr-underline-from-center" href="/stats/10">Octobre</a></li>
+                <li class="month tab"><a id="month11" class="hvr-underline-from-center" href="/stats/11">Novembre</a></li>
+                <li class="month tab"><a id="month12" class="hvr-underline-from-center" href="/stats/12">Décembre</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="section">
+<<<<<<< HEAD
         <h5>Informations générales du mois de 
             <% if(typeof mois !== 'undefined') {%>
                 <%= mois%>
@@ -41,21 +43,63 @@
             <div class="col s12"><p>This div is 12-columns wide on all screen sizes</p></div>
             <div class="col s6">6-columns (one-half)</div>
             <div class="col s6">6-columns (one-half)</div>
+=======
+        <% if(typeof mois !== 'undefined') {%>
+                <h5>Informations générales du mois de
+                    <%= mois%>
+                </h5>
+                <div class="row grey lighten-4">
+                    <div class="col s3">
+                        <p class="center-align">Nombre de problèmes ce mois-ci :</p><br>
+                        <h3 class="center-align"><%= stats[0][0].value %></h3>
+                    </div>
+                    <div class="col s3 red">
+                        <p class="center-align">Nombre de problèmes non-résolus :</p><br>
+                        <h3 class="center-align"><%= stats[1][0].value%></h3>
+                    </div>
+                    <div class="col s3">
+                        <p class="center-align">Nombre de problèmes en cours :</p><br>
+                        <h3 class="center-align"><%= stats[2][0].value %></h3>
+                    </div>
+                    <div class="col s3 green">
+                        <p class="center-align">Nombre de problèmes terminés :</p><br>
+                        <h3 class="center-align"><%= stats[3][0].value%></h3>
+                    </div>
+                </div>
+>>>>>>> 1e5bce833a36965e023ec72ae915390e06986465
         </div>
-    </div>
-    <div class="divider"></div>
-    <div class="section">
-        <h5>Section 2</h5>
-        <p>Stuff</p>
-    </div>
-    <div class="divider"></div>
-    <div class="section">
-        <h5>Section 3</h5>
-        <p>Stuff</p>
-    </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Nombre de billets par urgence</h5>
+            <div class="row grey lighten-4">
+                <div class="col s4">
+                    <p class="center-align">Urgence de niveau 1 :</p><br>
+                    <p class="center-align">Urgence de niveau 2 :</p><br>
+                    <p class="center-align">Urgence de niveau 3 :</p><br>
+                    <p class="center-align">Urgence de niveau 4 :</p><br>
+                    <p class="center-align">Urgence de niveau 5 :</p><br>
+
+                </div>
+                <div class="col s4">
+                    <p class="center-align"><%= stats[4][0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= stats[5][0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= stats[6][0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= stats[7][0].value %> billet(s)</p><br>
+                    <p class="center-align"><%= stats[8][0].value %> billet(s)</p><br>
+
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Autres Statistiques</h5>
+            <p>Ici d'autres Statistiques</p>
+        </div>
+        <%}%>
 
     <% include layout/script %>
-    <script type="text/javascript" src="/javascript/stats.js"></script>
+        <script type="text/javascript" src="/javascript/stats.js"></script>
+
 
 </body>
 

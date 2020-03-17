@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html>
-
-  <% include layout/head %>
-
+<% include layout/head %>
 
 <body>
-  <% include layout/navbar %>
+  <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
 
-  
+
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
+  <% if (pseudo == 'personnel') { %>
   <p>
-    <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">check</i>Prendre en charge le
+<<<<<<< HEAD
+    <form action="/billet/" method="POST">
+      <input type="hidden" name="accept" value="accept">
+      <button class="waves-effect waves-light btn blue" type="submit" >
+        <i class="material-icons left">check</i>Prendre en charge le
+        billet
+      </button>
+    </form>
+    <form action="/billet" method="POST">
+      <button class="waves-effect waves-light btn blue" type="submit">
+        <i class="material-icons left">close</i>Refuser le billet
+      </button>
+    </form>
+=======
+    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">check</i>Prendre en charge le
       billet</a>
-    <a href="/" class="waves-effect waves-light btn blue"><i class="material-icons left">close</i>Refuser le billet</a>
+    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le
+      billet</a>
+>>>>>>> 6bc5555989a0423ae3cadf071a27d60c0c12f15d
 
   </p>
-
+   <% } %>
   <table style="width:100%">
     <!-- <tr>
         <th>ID du BILLET</th>
@@ -65,10 +80,8 @@
       <th>Description</th>
       <td><%= billet[0].MESSAGEBILLET%></td>
     </tr>
-
-
   </table>
+  <% include layout/script %>
 </body>
-<script url="../public/js/main.js"></script>
 
 </html>

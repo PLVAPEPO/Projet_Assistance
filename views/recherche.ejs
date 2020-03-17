@@ -5,7 +5,7 @@
 
 
 <body>
-  <% include layout/navbar %>
+  <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
 
 
   <h1>Rechercher un billet</h1>
@@ -28,7 +28,7 @@
         </select>
       </div>
 
-      <button class="waves-effect waves-light btn blue" type="submit" name="action">
+      <button class="waves-effect waves-light btn indigo" type="submit" name="action">
         <i class="material-icons left">add_box</i>Rechercher
       </button>
     </form>
@@ -57,7 +57,7 @@
         <td><%= billet.URGENCEBILLET %></td>
         <td><%= billet.IDBILLET %></td>
         <td>
-          <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn blue"><i
+          <a href="/billet/<%= billet.IDBILLET %>" class="waves-effect waves-light btn indigo"><i
               class="material-icons">zoom_in</i> </a>
         </td>
         <% if (billet.ETATBILLET == 0) { %>
@@ -72,9 +72,7 @@
     </tbody>
   </table>
   <%} %>
-
-
-
+  <% include layout/script %>
 
 </body>
 
