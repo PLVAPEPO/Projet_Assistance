@@ -64,10 +64,6 @@ router.get('/:month', function (req, res, next) {
 
     con.query(querys, args, (err, rows) => {
         if (err) throw err;
-<<<<<<< HEAD
-        res.render('stats', { 'stats': rows, 'mois' : months[req.params.month]});
-        //  res.json(months[req.params.month])
-=======
         res.render('stats', {
             'stats': rows,
             'mois': months[req.params.month],
@@ -76,7 +72,6 @@ router.get('/:month', function (req, res, next) {
             role : req.session.role,
             prenom : req.session.prenom,
             nom: req.session.nom});
->>>>>>> 1e5bce833a36965e023ec72ae915390e06986465
     });
 });
 
