@@ -11,7 +11,7 @@
   <p>
     <form action="/billet/" method="POST">
       <input type="hidden" name="accept" value="accept">
-      <button class="waves-effect waves-light btn blue" type="submit" >
+      <button class="waves-effect waves-light btn blue" type="submit">
         <i class="material-icons left">check</i>Prendre en charge le
         billet
       </button>
@@ -27,12 +27,8 @@
       billet</a>
 
   </p>
-   <% } %>
+  <% } %>
   <table style="width:100%">
-    <!-- <tr>
-        <th>ID du BILLET</th>
-        <td><%= billet[0].IDBILLET%></td>
-      </tr> -->
     <tr>
       <th>Titre</th>
       <td><%= billet[0].TITREBILLET%></td>
@@ -78,6 +74,36 @@
       <td><%= billet[0].MESSAGEBILLET%></td>
     </tr>
   </table>
+  <h5>Commentaires :</h5>
+  <form action="/billet/ajout" method="POST">
+    <ul class="collection">
+      <% if(billet[0].IDPERSONNE == idpers) {%>
+      <li class="collection-item">
+        <input placeholder="Ajouter le titre du commentaire" name="titrecommentaire" type="text" class="validate"
+          data-length="120" id="input_text" required>
+        <input placeholder="Compléter le commentaire" name="libellecommentaire" type="text" class="validate"
+          data-length="120" id="input_text" required>
+        <input type="hidden" name="idbilletajout" value="<%= billet[0].IDBILLET %>">
+        <button class="waves-effect waves-light btn indigo" type="submit" name="action">
+          <i class="material-icons left">add_box</i>Ajouter
+        </button>
+      </li>
+      <%} %>
+
+      <% if(typeof comms != undefined && comms != "") {%>
+      <% comms.forEach(function(comm) {%>
+      <li class="collection-item">
+        <h6>
+          <%= comm.DATECREATIONBILLET.getDate()%>/<%= comm.DATECREATIONBILLET.getUTCMonth()+1%>/<%= comm.DATECREATIONBILLET.getUTCFullYear()%>
+          : <%= comm.TITRECOMMENTAIRE %></h6>
+        <%= comm.LIBELLECOMMENTAIRE %>
+      </li>
+      <%}) %>
+      <% } else {%>
+      <li class="collection-item">Il n'y a aucun commentaire</li>
+      <% } %>
+    </ul>
+  </form>
   <% include layout/script %>
 </body>
 
