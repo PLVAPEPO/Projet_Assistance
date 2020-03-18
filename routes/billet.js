@@ -22,8 +22,6 @@ router.post("/choix/:id", function (req, res) {
     if (req.body.accept == 'accept') {
         con.query("Update BILLET set ETATBILLET ='1' where idbillet = ?", idbill, (err, rows) => {
             if (err) throw err;
-
-            // res.json(req.body.titreBillet);
         });
 
         con.query("select IDPERSONNE FROM PERSONNE WHERE PseudoPersonne =?", req.session.pseudo, (err, rows) => {

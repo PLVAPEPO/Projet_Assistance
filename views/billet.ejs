@@ -11,7 +11,7 @@
   <p>
     <form action="/billet/choix/<%= billet[0].IDBILLET %>" method="POST">
       <input type="hidden" name="accept" value="accept">
-      <button class="waves-effect waves-light btn blue" type="submit" >
+      <button class="waves-effect waves-light btn blue" type="submit">
         <i class="material-icons left">check</i>Prendre en charge le
         billet
       </button>
@@ -28,7 +28,7 @@
       billet</a>
 
   </p>
-   <% } %>
+  <% } %>
   <table style="width:100%">
     <tr>
       <th>Titre</th>
@@ -77,6 +77,8 @@
   </table>
 
   <h5>Commentaires :</h5>
+
+  <% if(billet[0].IDPERSONNE == idpers) {%>
   <ul class="collection">
     <form action="/billet/ajout" method="POST">
       <li class="collection-item">
@@ -90,10 +92,8 @@
         </button>
       </li>
     </form>
-    <% if(billet[0].IDPERSONNE == idpers) {%>
-
     <%} %>
-    
+
     <% if(typeof comms != undefined && comms != "") {%>
     <% comms.forEach(function(comm) {%>
     <li class="collection-item">
