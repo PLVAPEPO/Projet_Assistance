@@ -42,6 +42,7 @@ router.post("/", function (req, res) {
 				'IDORDINATEUR': req.body.posteOrdinateur,
 				'PIECEJOINTEBILLET': '/images/'+ req.body.piecejointebillet,
 				'ETATBILLET': 0,
+				'NBREDIRECTIONBILLET':0,
 				'DATECREATIONBILLET': dateC,
 			},
 			(err, rows) => {

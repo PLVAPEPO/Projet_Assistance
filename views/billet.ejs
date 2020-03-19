@@ -7,25 +7,22 @@
 
 
   <h1>Billet n°<%= billet[0].IDBILLET %> - <%= billet[0].TITREBILLET%></h1>
-  <% if (pseudo == 'personnel') { %>
+  <% if (role != 1 && role != 3) { %>
   <p>
-    <form action="/billet/choix/<%= billet[0].IDBILLET %>" method="POST">
-      <input type="hidden" name="accept" value="accept">
-      <button class="waves-effect waves-light btn blue" type="submit">
-        <i class="material-icons left">check</i>Prendre en charge le
-        billet
+    <% if(billet[0].ETATBILLET != 2) { %>
+    <form action="/billet/end/<%= billet[0].IDBILLET %>" method="POST">
+      <input type="hidden" name="end" value="end">
+      <button class="waves-effect waves-light btn green type=" submit">
+        <i class="material-icons left">done</i>Problème résolu
       </button>
     </form>
-    <form action="/billet/<%= billet[0].IDBILLET %>" method="POST">
+    <form action="/billet/refus/<%= billet[0].IDBILLET %>" method="POST">
       <input type="hidden" name="refus" value="refus">
-      <button class="waves-effect waves-light btn blue" type="submit">
+      <button class="waves-effect waves-light btn red type=" submit">
         <i class="material-icons left">close</i>Refuser le billet
       </button>
     </form>
-    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">check</i>Prendre en charge le
-      billet</a>
-    <a href="/" class="waves-effect waves-light btn indigo"><i class="material-icons left">close</i>Refuser le
-      billet</a>
+    <% }%>
 
   </p>
   <% } %>
@@ -77,8 +74,6 @@
   </table>
 
   <h5>Commentaires :</h5>
-
-  <% if(billet[0].IDPERSONNE == idpers) {%>
   <ul class="collection">
     <form action="/billet/ajout" method="POST">
       <li class="collection-item">
@@ -92,7 +87,6 @@
         </button>
       </li>
     </form>
-    <%} %>
 
     <% if(typeof comms != undefined && comms != "") {%>
     <% comms.forEach(function(comm) {%>
