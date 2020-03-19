@@ -75,18 +75,20 @@
 
   <h5>Commentaires :</h5>
   <ul class="collection">
-    <form action="/billet/ajout" method="POST">
-      <li class="collection-item">
-        <input placeholder="Ajouter le titre du commentaire" name="titrecommentaire" type="text" class="validate"
-          data-length="120" id="input_text" required>
-        <input placeholder="Compléter le commentaire" name="libellecommentaire" type="text" class="validate"
-          data-length="120" id="input_text" required>
-        <input type="hidden" name="idbilletajout" value="<%= billet[0].IDBILLET %>">
-        <button class="waves-effect waves-light btn indigo" type="submit" name="action">
-          <i class="material-icons left">add_box</i>Ajouter
-        </button>
-      </li>
-    </form>
+    <% if (role != 1) {%>
+      <form action="/billet/ajout" method="POST">
+        <li class="collection-item">
+          <input placeholder="Ajouter le titre du commentaire" name="titrecommentaire" type="text" class="validate"
+            data-length="120" id="input_text" required>
+          <input placeholder="Compléter le commentaire" name="libellecommentaire" type="text" class="validate"
+            data-length="120" id="input_text" required>
+          <input type="hidden" name="idbilletajout" value="<%= billet[0].IDBILLET %>">
+          <button class="waves-effect waves-light btn indigo" type="submit" name="action">
+            <i class="material-icons left">add_box</i>Ajouter
+          </button>
+        </li>
+      </form>
+    <%}%>
 
     <% if(typeof comms != undefined && comms != "") {%>
     <% comms.forEach(function(comm) {%>
