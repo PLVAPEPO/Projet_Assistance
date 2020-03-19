@@ -8,7 +8,7 @@ router.get('/:id', function (req, res, next) {
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
     let query3 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
-    con.query(query3, req.params.id, (err, rows) => {
+    con.query(query, req.params.id, (err, rows) => {
         if (err) {
 			res.redirect("/errors");
 		}
@@ -65,7 +65,7 @@ router.post("/refus/:id", function (req, res) {
                                 if (err2) {
                                     res.redirect("/errors");
                                 }
-                                res.redirect("/billets")
+                                res.redirect("/errors");
                             })
                         }
                     })
