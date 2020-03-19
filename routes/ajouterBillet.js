@@ -18,7 +18,6 @@ router.get('/', function (req, res) {
 });
 
 router.get("/confirm", function (req, res) {
-	console.log(req.query);
 	con.query('INSERT INTO BILLET SET ?', { 'TITREBILLET': req.query.title, 'URGENCEBILLET': req.query.priority },
 		(err, rows) => {
 			if (err) throw err;
@@ -61,7 +60,9 @@ router.post("/", function (req, res) {
 				'URGENCEBILLET': req.body.urgenceBillet,
 				'MESSAGEBILLET': req.body.messageBillet,
 				'IDORDINATEUR': req.body.posteOrdinateur,
+				'PIECEJOINTEBILLET': '/images/'+ req.body.piecejointebillet,
 				'ETATBILLET': 0,
+				'NBREDIRECTIONBILLET':0,
 				'DATECREATIONBILLET': dateC,
 			},
 			(errinsert, rowsinsert) => {
