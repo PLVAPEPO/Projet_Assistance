@@ -8,10 +8,9 @@ router.get('/:id', function (req, res, next) {
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
     con.query(query, req.params.id, (err, rows) => {
-        if (err) throw err;
+        if (err) res.redirect("/errors");
         con.query(query2, req.params.id, (err2, rows2) => {
-            if (err2) throw err2;
-            // res.json(rows2)
+            if (err2) res.redirect("/errors");
             res.render('billet', { 'billet': rows, 'comms': rows2, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
         });
     });
@@ -21,7 +20,7 @@ router.post("/end/:id", function (req, res) {
     if(req.body.end == "end") {
         let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " +req.params.id
         con.query(query, (err, rows) => {
-            if(err) throw err;
+            if(err) res.redirect("/errors");
                 res.redirect("/billets")
         })
     }
@@ -32,20 +31,20 @@ router.post("/refus/:id", function (req, res) {
         //Ici, incrémentation du nombre de redirection du billet
         let queryStart = "SELECT * FROM BILLET WHERE IDBILLET = " + req.params.id + ";"
         con.query(queryStart, (errStart, rowsStart) => {
-            if (errStart) throw errStart;
+            if (errStart) res.redirect("/errors");
             let queriesNb2 = "UPDATE BILLET SET NBREDIRECTIONBILLET = (NBREDIRECTIONBILLET+1) WHERE IDBILLET =" + req.params.id + ";"
             queriesNb2 += "SELECT * FROM BILLET WHERE IDBILLET = " + req.params.id + ";"
             con.query(queriesNb2, (errNb, rowsNb) => {
-                if (errNb) throw errNb;
+                if (errNb) res.redirect("/errors");
                 //Ici, on check le nombre de redirection, si il est < 3, on l'envoie à quelqu'un d'autre
                 if (rowsNb[1][0].NBREDIRECTIONBILLET < 3) {
                     let query1 = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET) FROM PERSONNE p JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne JOIN BILLET b on a.IDBILLET=b.IDBILLET JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME WHERE pb.IDPROBLEME = ' + req.params.id + ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
                     con.query(query1, (err, rows) => {
-                        if (err) throw err;
+                        if (err) res.redirect("/errors");
                         if (typeof rows[0].IDPERSONNE != undefined) {
                             let query2 = "UPDATE ACCEPTE SET IDPERSONNE=" + rows[0].IDPERSONNE + " WHERE IDBILLET = " + req.params.id + ""
                             con.query(query2, (err2, row2) => {
-                                if (err2) throw err2;
+                                if (err2) res.redirect("/errors");
                                 res.redirect("/billets")
                             })
                         }
@@ -55,10 +54,10 @@ router.post("/refus/:id", function (req, res) {
                 else {
                     let query3 = 'SELECT DISTINCT IDPERSONNE FROM PERSONNE WHERE ROLEPERSONNE = 3'
                     con.query(query3, (err3, rows3) => {
-                        if (err3) throw err3;
+                        if (err3) res.redirect("/errors");
                         let query4 = "UPDATE ACCEPTE SET IDPERSONNE=" + rows3[0].IDPERSONNE + " WHERE IDBILLET = " + req.params.id + ""
                         con.query(query4, (err4, rows4) => {
-                            if (err4) throw err4;
+                            if (err4) res.redirect("/errors");
                             red.redirect("/billets")
                         })
                     })
@@ -80,7 +79,7 @@ router.post("/ajout", function (req, res) {
     let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
     let queryAjout = "INSERT INTO COMMENTAIRE(IDBILLET, TITRECOMMENTAIRE, LIBELLECOMMENTAIRE, DATECOMMENTAIRE) VALUES ('" + req.body.idbilletajout + "','" + req.body.titrecommentaire + "','" + req.body.libellecommentaire + "','" + dateC2 + "') "
     con.query(queryAjout, (err, rows) => {
-        if (err) throw err;
+        if (err) res.redirect("/errors");
         res.redirect('/billet/' + req.body.idbilletajout)
     })
 });

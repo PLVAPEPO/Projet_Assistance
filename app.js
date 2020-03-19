@@ -41,6 +41,8 @@ var billetRouter = require('./routes/billet');
 var ajouterBilletRouter = require('./routes/ajouterBillet');
 var rechercheRouter = require('./routes/recherche');
 var statsRouter = require('./routes/stats');
+var errorsRouter = require('./routes/errors');
+
 
 //crypting
 const algorithm = 'aes-192-cbc';
@@ -66,7 +68,7 @@ var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.red
 var login = function (req, res, next) {
   let query = 'SELECT IdPersonne, PseudoPersonne, MDPPersonne, PrenomPersonne, NomPersonne, RolePersonne FROM PERSONNE WHERE PseudoPersonne = ?';
   con.query(query, req.body.uname, (err, rows) => {
-      if (err) throw err;
+      if (err) res.redirect("/errors");
       let cipher = crypto.createCipheriv(algorithm, key, iv);
       let encrypted = cipher.update(req.body.psw, 'utf8', 'hex');
       encrypted += cipher.final('hex');
@@ -91,7 +93,7 @@ var login = function (req, res, next) {
 }
 var logout = function (req, res, next) {
   req.session.destroy(function (err) {
-    if (err) console.log(err);
+    if (err) res.redirect("/errors");
     next();
   })
 }
@@ -123,7 +125,7 @@ app.use('/billet', checkLoggedIn, billetRouter);
 app.use('/recherche', rechercheRouter);
 app.use('/stats', statsRouter);
 app.use('/ajouterBillet', checkLoggedIn, ajouterBilletRouter);
-
+app.use('/errors', checkLoggedIn,errorsRouter)
 app.use('/', indexRouter);
 app.use('/index', indexRouter);
 
