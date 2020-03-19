@@ -32,9 +32,30 @@ router.post("/", function (req, res) {
 		let dateM = d.getUTCMonth() + 1
 		let dateD = d.getDate()
 		let dateC = '' + dateY + '-' + dateM + '-' + dateD
-		con.query('INSERT INTO BILLET SET ?',
+
+		let querys = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET)'
+			querys += ' FROM PERSONNE p'
+			querys += ' JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne'
+			querys += ' JOIN BILLET b on a.IDBILLET=b.IDBILLET'
+			querys += ' JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME'
+			querys += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
+			querys += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
+			querys += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
+		
+			// SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET)
+			//    FROM PERSONNE p
+			//    JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne
+			//    JOIN BILLET b on a.IDBILLET=b.IDBILLET
+			//    JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME
+			//    WHERE pb.IDPROBLEME = 1 AND p.NOMPERSONNE NOT LIKE "%responsable%"
+			//    GROUP BY p.IDPERSONNE,p.NOMPERSONNE
+			//    ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1
+
+		con.query(querys, req.body.problemeBillet,  (err, rows) => {
+			if (err) throw err;
+			con.query('INSERT INTO BILLET SET ?',
 			{
-				'IDPERSONNE' : 1,
+				'IDPERSONNE' : req.session.idPersonne,
 				'TITREBILLET': req.body.titreBillet,
 				'IDPROBLEME': req.body.problemeBillet,
 				'URGENCEBILLET': req.body.urgenceBillet,
@@ -43,11 +64,19 @@ router.post("/", function (req, res) {
 				'ETATBILLET': 0,
 				'DATECREATIONBILLET': dateC,
 			},
-			(err, rows) => {
-				if (err) throw err;
-				res.redirect('/');
-				// res.json(req.body.titreBillet);
+			(errinsert, rowsinsert) => {
+				if (errinsert) throw errinsert;
+				con.query('INSERT INTO ACCEPTE SET ?',{
+					'IDPERSONNE' : rows[0].IDPERSONNE,
+					'IDBILLET' : rowsinsert.insertId
+				},
+				(errinsert2, rowsinsert2)=> {
+					if (errinsert2) throw errinsert2
+					res.redirect('/');
+				});
 			});
+		});
+		
 
 });
 
