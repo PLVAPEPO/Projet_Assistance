@@ -5,7 +5,11 @@
   <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
   <h1>Tableau de bord</h1>  
   <% if(typeof billets != undefined && billets != "") {%>
-  <h2>Mes billets</h2>
+    <% if(roleUser == true ) {%>
+      <h2>Mes billets postés</h2>
+    <%} else {%>
+      <h2>Mes billets reçus</h2>
+    <%}%>
   <table id="billets" class="centered responsive-table highlight">
     <thead>
       <tr>

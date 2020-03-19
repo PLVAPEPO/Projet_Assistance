@@ -14,14 +14,14 @@ router.get('/', function (req, res) {
     let query = 'SELECT * FROM BILLET WHERE IDPERSONNE = ? ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
     con.query(query, req.session.idPersonne , (err, rows) => {
       if (err) throw err;
-      res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
+      res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom, 'roleUser' : true});
     });
   }
   else {
     let query = 'SELECT * FROM BILLET b JOIN ACCEPTE a on a.IDBILLET = b.IDBILLET JOIN PERSONNE p on p.IDPERSONNE = a.IDPERSONNE WHERE p.ROLEPERSONNE = ? AND p.IDPERSONNE = ? ORDER BY DATECREATIONBILLET DESC, b.URGENCEBILLET DESC, b.IDBILLET DESC';
     con.query(query, [req.session.role, req.session.idPersonne] , (err, rows) => {
       if (err) throw err;
-      res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
+      res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom, 'roleUser' : false});
     });
   }
   
