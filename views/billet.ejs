@@ -73,23 +73,23 @@
     </tr>
   </table>
 
+
   <h5>Commentaires :</h5>
   <ul class="collection">
     <% if (role != 1) {%>
-      <form action="/billet/ajout" method="POST">
-        <li class="collection-item">
-          <input placeholder="Ajouter le titre du commentaire" name="titrecommentaire" type="text" class="validate"
-            data-length="120" id="input_text" required>
-          <input placeholder="Compléter le commentaire" name="libellecommentaire" type="text" class="validate"
-            data-length="120" id="input_text" required>
-          <input type="hidden" name="idbilletajout" value="<%= billet[0].IDBILLET %>">
-          <button class="waves-effect waves-light btn indigo" type="submit" name="action">
-            <i class="material-icons left">add_box</i>Ajouter
-          </button>
-        </li>
-      </form>
+    <form action="/billet/ajoutcomm" method="POST">
+      <li class="collection-item">
+        <input placeholder="Ajouter le titre du commentaire" name="titrecommentaire" type="text" class="validate"
+          data-length="120" id="input_text" required>
+        <input placeholder="Compléter le commentaire" name="libellecommentaire" type="text" class="validate"
+          data-length="120" id="input_text" required>
+        <input type="hidden" name="idbilletajout" value="<%= billet[0].IDBILLET %>">
+        <button class="waves-effect waves-light btn indigo" type="submit" name="action">
+          <i class="material-icons left">add_box</i>Ajouter
+        </button>
+      </li>
+    </form>
     <%}%>
-
     <% if(typeof comms != undefined && comms != "") {%>
     <% comms.forEach(function(comm) {%>
     <li class="collection-item">
@@ -103,6 +103,36 @@
     <li class="collection-item">Il n'y a aucun commentaire</li>
     <% } %>
   </ul>
+
+  <h5>Interventions :</h5>
+  <ul class="collection">
+    <% if (role != 1) {%>
+    <form action="/billet/ajoutinter" method="POST">
+      <li class="collection-item">
+        <input placeholder="Ecrivez ici au sujet de l'intervention" name="description" type="text" class="validate"
+          data-length="120" id="input_text" required>
+        <input type="hidden" name="idbilletajout" value="<%= billet[0].IDBILLET %>">
+        <button class="waves-effect waves-light btn indigo" type="submit" name="action">
+          <i class="material-icons left">add_box</i>Ajouter
+        </button>
+      </li>
+    </form>
+    <%}%>
+
+    <% if(typeof inters != undefined && inters != "") {%>
+    <% inters.forEach(function(inter) {%>
+    <li class="collection-item">
+      <h6>
+        <%= inter.DATEINTERVENTION.getDate()%>/<%= inter.DATEINTERVENTION.getUTCMonth()+1%>/<%= inter.DATEINTERVENTION.getUTCFullYear()%>
+        :</h6>
+      <%= inter.DESCRIPTIONINTERVENTION %>
+    </li>
+    <%}) %>
+    <% } else {%>
+    <li class="collection-item">Il n'y a aucune Intervention</li>
+    <% } %>
+  </ul>
+
   <% include layout/script %>
 </body>
 

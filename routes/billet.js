@@ -7,21 +7,25 @@ router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
-    con.query(query, req.params.id, (err, rows) => {
+    let query3 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
+    con.query(query3, req.params.id, (err, rows) => {
         if (err) throw err;
         con.query(query2, req.params.id, (err2, rows2) => {
             if (err2) throw err2;
-            res.render('billet', { 'billet': rows, 'comms': rows2, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+            con.query(query3, req.params.id, (err3, rows3) => {
+                if (err3) throw err3;
+                res.render('billet', { 'billet': rows, 'comms': rows2, 'inters':rows3, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+            });
         });
     });
 });
 
 router.post("/end/:id", function (req, res) {
-    if(req.body.end == "end") {
-        let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " +req.params.id
+    if (req.body.end == "end") {
+        let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " + req.params.id
         con.query(query, (err, rows) => {
-            if(err) throw err;
-                res.redirect("/billets")
+            if (err) throw err;
+            res.redirect("/billets")
         })
     }
 })
@@ -67,8 +71,7 @@ router.post("/refus/:id", function (req, res) {
     }
 })
 
-
-router.post("/ajout", function (req, res) {
+router.post("/ajoutcomm", function (req, res) {
     var d2 = new Date();
     let dateY2 = d2.getUTCFullYear()
     let dateM2 = d2.getUTCMonth() + 1
@@ -83,6 +86,24 @@ router.post("/ajout", function (req, res) {
         res.redirect('/billet/' + req.body.idbilletajout)
     })
 });
+
+router.post("/ajoutinter", function (req, res) {
+    var d2 = new Date();
+    let dateY2 = d2.getUTCFullYear()
+    let dateM2 = d2.getUTCMonth() + 1
+    let dateD2 = d2.getDate()
+    if (dateM2 < 10) {
+        dateM2 = '0' + dateM2;
+    }
+    let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
+    let queryAjout = "INSERT INTO INTERVENTION(IDBILLET, DESCRIPTIONINTERVENTION, DATEINTERVENTION) VALUES ('" + req.body.idbilletajout + "','" + req.body.description + "','" + dateC2 + "') "
+    con.query(queryAjout, (err, rows) => {
+        if (err) throw err;
+        res.redirect('/billet/' + req.body.idbilletajout)
+    })
+});
+
+
 
 
 module.exports = router;
