@@ -7,11 +7,11 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function (req, res, next) {
   req.session.destroy(function(err) {
-    if(err) res.redirect("/errors");
+    if(err) console.log(err);
     });
   let query = 'SELECT * FROM PERSONNE';
   con.query(query, (err, rows) => {
-    if (err) res.redirect("/errors");
+    if (err) throw err;
     res.render('index', { 'personnes': rows });
   });
 });

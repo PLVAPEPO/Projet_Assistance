@@ -19,7 +19,7 @@
 
       <div class="input-field">
         <label for="problemeBillet">Type de problême</label><br><br>
-        <select id="problemeBillet" name="problemeBillet" class="dispSelect">
+        <select id="problemeBillet" name="problemeBillet" class="dispSelect" required>
           <option value="">Veuillez sélectionner un type de problême</option>
           <% probs.forEach(function(prob) {%>
           <option value="<%= prob.IDPROBLEME %>"><%= prob.NOMPROBLEME %></option>
@@ -46,7 +46,7 @@
 
       <div class="input-field">
         <label for="posteOrdinateur">Poste</label><br><br>
-        <select id="posteOrdinateur" name="posteOrdinateur" class="dispSelect">
+        <select id="posteOrdinateur" name="posteOrdinateur" class="dispSelect" required>
           <option value="">Veuillez sélectionner un poste</option>
           <% ordis.forEach(function(ordi) {%>
           <option value="<%= ordi.IDORDINATEUR %>"><%= ordi.POSTEORDINATEUR %></option>
