@@ -12,7 +12,9 @@ router.get('/', function (req, res, next) {
     var d = new Date();
     let query = 'SELECT * FROM BILLET ORDER BY DATECREATIONBILLET DESC, IDBILLET DESC';
     con.query(query, (err, rows) => {
-        if (err) throw err;
+        if (err) {
+			res.redirect("/errors");
+		}
         res.render('stats', {
             'stats': rows,  
             pseudo: req.session.pseudo, 
@@ -63,7 +65,9 @@ router.get('/:month', function (req, res, next) {
 
 
     con.query(querys, args, (err, rows) => {
-        if (err) throw err;
+        if (err) {
+			res.redirect("/errors");
+		}
         res.render('stats', {
             'stats': rows,
             'mois': months[req.params.month],

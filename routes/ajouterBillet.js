@@ -6,10 +6,14 @@ var router = express.Router();
 router.get('/', function (req, res) {
 	let query = 'SELECT * FROM ORDINATEUR';
 	con.query(query, (err, rows) => {
-		if (err) throw err;
+		if (err) {
+			res.redirect("/errors");
+		}
 		let query2 = 'SELECT * FROM PROBLEME';
 		con.query(query2, (err, rows2) => {
-			if (err) throw err;
+			if (err) {
+				res.redirect("/errors");
+			}
 			res.render('ajouterBillet', { 'ordis': rows, 'probs': rows2, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
 		});
 	});
@@ -20,7 +24,9 @@ router.get('/', function (req, res) {
 router.get("/confirm", function (req, res) {
 	con.query('INSERT INTO BILLET SET ?', { 'TITREBILLET': req.query.title, 'URGENCEBILLET': req.query.priority },
 		(err, rows) => {
-			if (err) throw err;
+			if (err) {
+				res.redirect("/errors");
+			}
 			res.redirect('/tickets');
 		});
 });
@@ -40,18 +46,11 @@ router.post("/", function (req, res) {
 			querys += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
 			querys += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
 			querys += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
-		
-			// SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET)
-			//    FROM PERSONNE p
-			//    JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne
-			//    JOIN BILLET b on a.IDBILLET=b.IDBILLET
-			//    JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME
-			//    WHERE pb.IDPROBLEME = 1 AND p.NOMPERSONNE NOT LIKE "%responsable%"
-			//    GROUP BY p.IDPERSONNE,p.NOMPERSONNE
-			//    ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1
 
 		con.query(querys, req.body.problemeBillet,  (err, rows) => {
-			if (err) throw err;
+			if (err) {
+				res.redirect("/errors");
+			}
 			con.query('INSERT INTO BILLET SET ?',
 			{
 				'IDPERSONNE' : req.session.idPersonne,
@@ -66,19 +65,21 @@ router.post("/", function (req, res) {
 				'DATECREATIONBILLET': dateC,
 			},
 			(errinsert, rowsinsert) => {
-				if (errinsert) throw errinsert;
+				if (errinsert) {
+					res.redirect("/errors");
+				}
 				con.query('INSERT INTO ACCEPTE SET ?',{
 					'IDPERSONNE' : rows[0].IDPERSONNE,
 					'IDBILLET' : rowsinsert.insertId
 				},
 				(errinsert2, rowsinsert2)=> {
-					if (errinsert2) throw errinsert2
+					if (errinsert2){
+						res.redirect("/errors");
+					}
 					res.redirect('/');
 				});
 			});
 		});
-		
-
 });
 
 module.exports = router;
