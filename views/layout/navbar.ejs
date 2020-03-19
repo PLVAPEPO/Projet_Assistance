@@ -29,9 +29,11 @@
             class="material-icons left">keyboard_arrow_left</i>Revenir à l'Accueil</a></li>
       <li><a href="/billets" class="btn indigo"><i class="material-icons left">dashboard</i>Tableau de
           bord</a></li>
-      <li><a href="/ajouterBillet" class="btn indigo"><i class="material-icons left">add</i>Ajouter un
-          billet</a></li>
-      <% if(role == 2 || role == 3) { %>
+      <% if (role == 1) {%>
+  <li><a href="/ajouterBillet" class="btn indigo"><i class="material-icons left">add</i>Ajouter un
+      billet</a></li>
+  <% } %>
+  <% if(role == 2 || role == 3) { %>
   <li><a href="/recherche" class="btn indigo"><i class="material-icons left">search</i>Rechercher</a>
     <%}%>
     <% if( role == 3) { %>
