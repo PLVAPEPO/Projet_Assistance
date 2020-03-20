@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
       if (err) {
         res.redirect("/errors");
       }
-      res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom, 'roleUser' : true});
+      res.render('billets', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom,'roleUser' : true});
     });
   }
   else {
