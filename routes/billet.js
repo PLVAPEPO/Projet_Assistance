@@ -2,9 +2,11 @@ let con = require('../db');
 var express = require('express');
 var router = express.Router();
 var idbill;
+var msgArray;
 
 router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
+    msgArray = req.session.msg;
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
     let query3 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
@@ -25,7 +27,7 @@ router.get('/:id', function (req, res, next) {
                     if (err4) {
                         res.redirect("/errors");
                     }
-                    res.render('billet', { 'billet': rows, 'comms': rows2, 'inters':rows3, 'accepte':rows4, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+                    res.render('billet', { 'billet': rows, 'comms': rows2, 'inters':rows3, 'accepte':rows4, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne, msg : msgArray});
                 });
             });
         });
@@ -136,11 +138,26 @@ router.post("/ajoutinter", function (req, res) {
 });
 
 router.post("/modifDateFin", function (req, res) {
-    let query = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ?"
-    con.query(query,[req.body.dateFin,req.body.idBillet], (err, rows) => {
-        if (err) throw err;
+    var d = new Date();
+    let dateY = d.getUTCFullYear()
+    let dateM = d.getUTCMonth() + 1
+    let dateD = d.getDate()
+    let dateDeFin = req.body.dateFin;
+    let annee = dateDeFin.substring(0,4);
+    let mois = dateDeFin.substring(5,7);
+    let jour = dateDeFin.substring(8,10);
+    if(parseInt(mois) < parseInt(dateM) || parseInt(jour) < parseInt(dateD) || parseInt(annee) < parseInt(dateY) ){
+        req.session.msg = ['error','Veuillez bien renseigner la date'];
         res.redirect('/billet/'+req.body.idBillet);
-    })
+    }
+    else {
+        let query = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ?"
+        con.query(query,[req.body.dateFin,req.body.idBillet], (err, rows) => {
+            if (err) throw err;
+            req.session.msg = ['success','Modification appliqué'];
+            res.redirect('/billet/'+req.body.idBillet);
+        })
+    }
     
 });
 

@@ -17,24 +17,7 @@ var logger = require('morgan');
 app.use(logger('dev'));
 
 
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}))
 
-
-var indexRouter = require('./routes/index');
-var billetsRouter = require('./routes/billets');
-var billetRouter = require('./routes/billet');
-var ajouterBilletRouter = require('./routes/ajouterBillet');
-var rechercheRouter = require('./routes/recherche');
-var statsRouter = require('./routes/stats');
-var errorsRouter = require('./routes/errors');
 
 
 //crypting
@@ -45,15 +28,31 @@ const iv = Buffer.alloc(16, 0);
 
 
 // view engine setup
+app.use(express.static('public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
 app.use(methodOverride('_method'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+var indexRouter = require('./routes/index');
+var billetsRouter = require('./routes/billets');
+var billetRouter = require('./routes/billet');
+var ajouterBilletRouter = require('./routes/ajouterBillet');
+var rechercheRouter = require('./routes/recherche');
+var statsRouter = require('./routes/stats');
+var errorsRouter = require('./routes/errors');
 
 
 var checkLoggedIn = (req, res, next) => req.session.connected ? next() : res.redirect("/");
@@ -69,6 +68,7 @@ var login = function (req, res, next) {
       if(rows.length === 1 && rows[0].MDPPersonne === encrypted)
       {
         req.session.connected=true;
+        req.session.msg = [];
         req.session.idPersonne = rows[0].IdPersonne;
         req.session.pseudo = rows[0].PseudoPersonne;
         req.session.prenom = rows[0].PrenomPersonne;
