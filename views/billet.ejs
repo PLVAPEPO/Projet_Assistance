@@ -30,7 +30,7 @@
         <i class="material-icons left">done</i>Problème résolu
       </button>
     </form>
-    <form action="/billet/refus/<%= billet[0].IDBILLET %>" method="POST">
+    <form action="/billet/refus/<%= billet[0].IDBILLET %>/<%= billet[0].IDPROBLEME %>" method="POST">
       <input type="hidden" name="refus" value="refus">
       <button class="waves-effect waves-light btn red type=" submit">
         <i class="material-icons left">close</i>Refuser le billet
@@ -99,7 +99,7 @@
           </form>
         </td>
       <%}%>
-      <% if (role != 1) {%>
+      <% if (role != 1 && billet[0].ETATBILLET != 2) {%>
         <td>
           <button class="waves-effect waves-light btn indigo" id="modifDate" onclick="toggleDisp(['modifDate','formDate','validDate','cancelDate','pDate'])">
             <i class="material-icons left">add_box</i>Modifier

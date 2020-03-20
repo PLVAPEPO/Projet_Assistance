@@ -4,6 +4,11 @@ var router = express.Router();
 var idbill;
 var msgArray;
 
+var d = new Date();
+let dateY = d.getUTCFullYear();
+let dateM = d.getUTCMonth() + 1;
+let dateD = d.getDate();
+
 router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     msgArray = req.session.msg;
@@ -42,13 +47,20 @@ router.post("/end/:id", function (req, res) {
                 if (err) {
                     res.redirect("/errors");
                 }
-                res.redirect("/billets")
+                let dateJ = dateY+"-"+dateM+"-"+dateD
+                let query2 = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ? AND DATEFERMETUREBILLET is NULL"
+                con.query(query2,[dateJ,req.params.id], (err,rows2) =>{
+                    if(err) {
+                        throw err;
+                    }
+                    res.redirect("/billets")
+                })
             })
         }
     }
 })
 
-router.post("/refus/:id", function (req, res) {
+router.post("/refus/:id/:idpb", function (req, res) {
     if (req.body.refus == "refus") {
         //Ici, incrémentation du nombre de redirection du billet
         let queryStart = "SELECT *"
@@ -75,10 +87,10 @@ router.post("/refus/:id", function (req, res) {
                         query1 += ' JOIN QUALIFICATION q on q.IDQUALIFICATION=au.IDQUALIFICATION'
                         query1 += ' JOIN RESOUT r on r.IDQUALIFICATION=q.IDQUALIFICATION'
                         query1 += ' JOIN PROBLEME pb on pb.IDPROBLEME=r.IDPROBLEME'
-                        query1 += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
+                        query1 += ' WHERE pb.IDPROBLEME = '+req.params.idpb+' AND p.IDPERSONNE != '+req.session.idPersonne+''
                         query1 += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
-                        query1 += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
-                    con.query(query1,req.params.id, (err, rows) => {
+                        query1 += ' ORDER BY COUNT(a.IDBILLET)'
+                    con.query(query1, (err, rows) => {
                         if (err) {
                             res.redirect("/errors");
                         }
@@ -88,7 +100,7 @@ router.post("/refus/:id", function (req, res) {
                                 if (err2) {
                                     res.redirect("/errors");
                                 }
-                                res.redirect("/errors");
+                                res.redirect("/billets");
                             })
                         }
                     })
@@ -118,14 +130,7 @@ router.post("/ajoutcomm", function (req, res) {
     if ((typeof req.body.titrecommentaire === 'string' || req.body.titrecommentaire instanceof String)
         && (typeof req.body.libellecommentaire === 'string' || req.body.libellecommentaire instanceof String)) {
 
-        var d2 = new Date();
-        let dateY2 = d2.getUTCFullYear()
-        let dateM2 = d2.getUTCMonth() + 1
-        let dateD2 = d2.getDate()
-        if (dateM2 < 10) {
-            dateM2 = '0' + dateM2;
-        }
-        let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
+        let dateC2 = '' + dateY + '-' + dateM + '-' + dateD
         let queryAjout = "INSERT INTO COMMENTAIRE(IDBILLET, TITRECOMMENTAIRE, LIBELLECOMMENTAIRE, DATECOMMENTAIRE) VALUES ('" + req.body.idbilletajout + "','" + req.body.titrecommentaire + "','" + req.body.libellecommentaire + "','" + dateC2 + "') "
         con.query(queryAjout, (err, rows) => {
             if (err) {
@@ -141,14 +146,10 @@ router.post("/ajoutcomm", function (req, res) {
 
 router.post("/ajoutinter", function (req, res) {
     if (typeof req.body.description === 'string' || req.body.description instanceof String) {
-        var d2 = new Date();
-        let dateY2 = d2.getUTCFullYear()
-        let dateM2 = d2.getUTCMonth() + 1
-        let dateD2 = d2.getDate()
-        if (dateM2 < 10) {
-            dateM2 = '0' + dateM2;
+        if (dateM < 10) {
+            dateM = '0' + dateM;
         }
-        let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
+        let dateC2 = '' + dateY + '-' + dateM + '-' + dateD
         let queryAjout = "INSERT INTO INTERVENTION(IDBILLET, DESCRIPTIONINTERVENTION, DATEINTERVENTION) VALUES ('" + req.body.idbilletajout + "',?,'" + dateC2 + "') "
         con.query(queryAjout,req.body.description, (err, rows) => {
             if (err) {
@@ -166,10 +167,7 @@ router.post("/ajoutinter", function (req, res) {
 });
 
 router.post("/modifDateFin", function (req, res) {
-    var d = new Date();
-    let dateY = d.getUTCFullYear()
-    let dateM = d.getUTCMonth() + 1
-    let dateD = d.getDate()
+    
     let dateDeFin = req.body.dateFin;
     let annee = dateDeFin.substring(0,4);
     let mois = dateDeFin.substring(5,7);

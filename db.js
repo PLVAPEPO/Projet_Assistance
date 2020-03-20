@@ -1,10 +1,10 @@
 let mysql = require('mysql');
 let con = mysql.createConnection({
-    host: 'vps409067.ovh.net',
-    port: '3306',
-    user: 'grp1',
-    password: 'UivAc8mO5vZrIF0w',
-    database: 'grp1',
+    host: process.env.hostBdd,
+    port: process.env.portBdd,
+    user: process.env.userBdd,
+    password: process.env.passwordBdd,
+    database: process.env.nameBdd,
     multipleStatements: true
   });
 
@@ -12,7 +12,6 @@ let con = mysql.createConnection({
   
   con.connect((err) => {
     if(err){
-      // console.log('Error connecting to DB');
       console.log(err)
       return;
     }
