@@ -131,8 +131,8 @@ router.post("/ajoutcomm", function (req, res) {
         && (typeof req.body.libellecommentaire === 'string' || req.body.libellecommentaire instanceof String)) {
 
         let dateC2 = '' + dateY + '-' + dateM + '-' + dateD
-        let queryAjout = "INSERT INTO COMMENTAIRE(IDBILLET, TITRECOMMENTAIRE, LIBELLECOMMENTAIRE, DATECOMMENTAIRE) VALUES ('" + req.body.idbilletajout + "','" + req.body.titrecommentaire + "','" + req.body.libellecommentaire + "','" + dateC2 + "') "
-        con.query(queryAjout, (err, rows) => {
+        let queryAjout = "INSERT INTO COMMENTAIRE(IDBILLET, TITRECOMMENTAIRE, LIBELLECOMMENTAIRE, DATECOMMENTAIRE) VALUES ('" + req.body.idbilletajout + "',?,?,'" + dateC2 + "') "
+        con.query(queryAjout,[req.body.titrecommentaire,req.body.libellecommentaire], (err, rows) => {
             if (err) {
                 res.redirect("/errors");
             }
