@@ -36,7 +36,7 @@ router.get('/:id', function (req, res, next) {
 
 router.post("/end/:id", function (req, res) {
     if (req.body.end == "end") {
-        if (typeof req.params.id != undefined) {
+        if (typeof req.params.id != 'undefined') {
             let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " + req.params.id
             con.query(query, (err, rows) => {
                 if (err) {
@@ -66,12 +66,23 @@ router.post("/refus/:id", function (req, res) {
                 }
                 //Ici, on check le nombre de redirection, si il est < 3, on l'envoie à quelqu'un d'autre
                 if (rowsNb[1][0].NBREDIRECTIONBILLET < 3) {
-                    let query1 = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET) FROM PERSONNE p JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne JOIN BILLET b on a.IDBILLET=b.IDBILLET JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME WHERE pb.IDPROBLEME = ' + req.params.id + ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
-                    con.query(query1, (err, rows) => {
+
+                    let query1 = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET)'
+                        query1 += ' FROM BILLET b'
+                        query1 += ' JOIN ACCEPTE a on a.IDBILLET=b.IDBILLET'
+                        query1 += ' JOIN PERSONNE p on a.IDPERSONNE=p.IDPERSONNE'
+                        query1 += ' JOIN A_UNE au on p.IDPERSONNE=au.IDPERSONNE'
+                        query1 += ' JOIN QUALIFICATION q on q.IDQUALIFICATION=au.IDQUALIFICATION'
+                        query1 += ' JOIN RESOUT r on r.IDQUALIFICATION=q.IDQUALIFICATION'
+                        query1 += ' JOIN PROBLEME pb on pb.IDPROBLEME=r.IDPROBLEME'
+                        query1 += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
+                        query1 += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
+                        query1 += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
+                    con.query(query1,req.params.id, (err, rows) => {
                         if (err) {
                             res.redirect("/errors");
                         }
-                        if (typeof rows[0].IDPERSONNE != undefined) {
+                        if (typeof rows[0].IDPERSONNE != 'undefined') {
                             let query2 = "UPDATE ACCEPTE SET IDPERSONNE=" + rows[0].IDPERSONNE + " WHERE IDBILLET = " + req.params.id + ""
                             con.query(query2, (err2, row2) => {
                                 if (err2) {
@@ -94,7 +105,7 @@ router.post("/refus/:id", function (req, res) {
                             if (err4) {
                                 res.redirect("/errors");
                             }
-                            red.redirect("/billets")
+                            res.redirect("/billets")
                         })
                     })
                 }

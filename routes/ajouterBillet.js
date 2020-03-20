@@ -55,15 +55,20 @@ router.post("/", function (req, res) {
 		let dateD = d.getDate()
 		let dateC = '' + dateY + '-' + dateM + '-' + dateD
 
+
+		
 		let querys = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET)'
-		querys += ' FROM PERSONNE p'
-		querys += ' JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne'
-		querys += ' JOIN BILLET b on a.IDBILLET=b.IDBILLET'
-		querys += ' JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME'
-		querys += ' JOIN A_UNE au on au.IDPERSONNE=p.IDPERSONNE'
-		querys += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
-		querys += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
-		querys += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
+			querys += ' FROM BILLET b'
+			querys += ' JOIN ACCEPTE a on a.IDBILLET=b.IDBILLET'
+			querys += ' JOIN PERSONNE p on a.IDPERSONNE=p.IDPERSONNE'
+			querys += ' JOIN A_UNE au on p.IDPERSONNE=au.IDPERSONNE'
+			querys += ' JOIN QUALIFICATION q on q.IDQUALIFICATION=au.IDQUALIFICATION'
+			querys += ' JOIN RESOUT r on r.IDQUALIFICATION=q.IDQUALIFICATION'
+			querys += ' JOIN PROBLEME pb on pb.IDPROBLEME=r.IDPROBLEME'
+			querys += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
+			querys += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
+			querys += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
+	
 
 		con.query(querys, req.body.problemeBillet, (err, rows) => {
 			if (err) {
