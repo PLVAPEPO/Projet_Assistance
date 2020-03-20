@@ -4,7 +4,7 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
-	res.render('recherche', { pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
+	res.render('recherche', { pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom });
 });
 
 router.post("/", function (req, res) {
@@ -13,13 +13,18 @@ router.post("/", function (req, res) {
 	}
 	else {
 		let type = '' + req.body.typeRechercheBillet + ''
-		let query = "SELECT * FROM BILLET b JOIN PERSONNE p on p.IDPERSONNE = b.IDPERSONNE  WHERE p.IDPERSONNE = " + req.session.idPersonne + " && " + type + " like ?";
+		let query = ""
+		if (role != 3)
+			query = "SELECT * FROM BILLET b JOIN PERSONNE p on p.IDPERSONNE = b.IDPERSONNE  WHERE p.IDPERSONNE = " + req.session.idPersonne + " && " + type + " like ?";
+		else
+			query = "SELECT * FROM BILLET b JOIN PERSONNE p on p.IDPERSONNE = b.IDPERSONNE  WHERE " + type + " like ?";
+
 		let recherche = '%' + req.body.rechercheBillet.replace(/\//g, "-") + '%'
 		con.query(query, recherche, (err, rows) => {
 			if (err) {
 				res.redirect("/errors");
 			}
-			res.render('recherche', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
+			res.render('recherche', { 'billets': rows, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom });
 		});
 	}
 });
