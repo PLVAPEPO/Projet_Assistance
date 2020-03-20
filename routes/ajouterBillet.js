@@ -60,6 +60,7 @@ router.post("/", function (req, res) {
 		querys += ' JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne'
 		querys += ' JOIN BILLET b on a.IDBILLET=b.IDBILLET'
 		querys += ' JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME'
+		querys += ' JOIN A_UNE au on au.IDPERSONNE=p.IDPERSONNE'
 		querys += ' WHERE pb.IDPROBLEME = ? AND p.NOMPERSONNE NOT LIKE "%responsable%"'
 		querys += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
 		querys += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
@@ -93,7 +94,7 @@ router.post("/", function (req, res) {
 							if (errinsert2) {
 								res.redirect("/errors");
 							}
-							res.redirect('/');
+							res.redirect('/billets');
 						});
 				});
 		});
@@ -103,5 +104,7 @@ router.post("/", function (req, res) {
 	}
 
 });
+
+
 
 module.exports = router;
