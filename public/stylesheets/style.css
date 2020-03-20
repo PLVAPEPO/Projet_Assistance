@@ -51,3 +51,7 @@ a {
   height: 100px;
   width: 100px;
 }
+
+.undisplay{
+  display: none !important;
+}

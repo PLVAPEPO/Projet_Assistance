@@ -7,25 +7,39 @@ router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
+    let query4 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
     let query3 = 'SELECT * FROM ACCEPTE WHERE IDBILLET = ?'
     con.query(query, idbill, (err, rows) => {
-        if (err) throw err;
+        if (err) {
+			res.redirect("/errors");
+		}
         con.query(query2, idbill, (err2, rows2) => {
-            if (err2) throw err2;
+            if (err2) {
+                res.redirect("/errors");
+            }
             con.query(query3, idbill, (err3, rows3) => {
-                if (err3) throw err3
-                res.render('billet', { 'billet': rows,'comms': rows2, 'accepte': rows3, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
-            })
+                if (err3) {
+                    res.redirect("/errors");
+                }
+                con.query(query4, idbill, (err4, rows4) => {
+                    if (err4) {
+                        res.redirect("/errors");
+                    }
+                    res.render('billet', { 'billet': rows, 'comms': rows2, 'inters':rows3, 'accepte':rows4, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+                });
+            });
         });
     });
 });
 
 router.post("/end/:id", function (req, res) {
-    if(req.body.end == "end") {
-        let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " +req.params.id
+    if (req.body.end == "end") {
+        let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " + req.params.id
         con.query(query, (err, rows) => {
-            if(err) throw err;
-                res.redirect("/billets")
+            if (err){
+                res.redirect("/errors");
+            }
+            res.redirect("/billets")
         })
     }
 })
@@ -37,21 +51,29 @@ router.post("/refus/:id", function (req, res) {
             queryStart +=" FROM BILLET"
             queryStart +=" WHERE IDBILLET = " + req.params.id + ";"
         con.query(queryStart, (errStart, rowsStart) => {
-            if (errStart) throw errStart;
+            if (errStart) {
+                res.redirect("/errors");
+            }
             let queriesNb2 = "UPDATE BILLET SET NBREDIRECTIONBILLET = (NBREDIRECTIONBILLET+1) WHERE IDBILLET =" + req.params.id + ";"
             queriesNb2 += "SELECT * FROM BILLET WHERE IDBILLET = " + req.params.id + ";"
             con.query(queriesNb2, (errNb, rowsNb) => {
-                if (errNb) throw errNb;
+                if (errNb) {
+                    res.redirect("/errors");
+                }
                 //Ici, on check le nombre de redirection, si il est < 3, on l'envoie à quelqu'un d'autre
                 if (rowsNb[1][0].NBREDIRECTIONBILLET < 3) {
                     let query1 = 'SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET) FROM PERSONNE p JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne JOIN BILLET b on a.IDBILLET=b.IDBILLET JOIN PROBLEME pb on b.IDPROBLEME=pb.IDPROBLEME WHERE pb.IDPROBLEME = ' + req.params.id + ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
                     con.query(query1, (err, rows) => {
-                        if (err) throw err;
+                        if (err) {
+                            res.redirect("/errors");
+                        }
                         if (typeof rows[0].IDPERSONNE != undefined) {
                             let query2 = "UPDATE ACCEPTE SET IDPERSONNE=" + rows[0].IDPERSONNE + " WHERE IDBILLET = " + req.params.id + ""
                             con.query(query2, (err2, row2) => {
-                                if (err2) throw err2;
-                                res.redirect("/billets")
+                                if (err2) {
+                                    res.redirect("/errors");
+                                }
+                                res.redirect("/errors");
                             })
                         }
                     })
@@ -60,10 +82,14 @@ router.post("/refus/:id", function (req, res) {
                 else {
                     let query3 = 'SELECT DISTINCT IDPERSONNE FROM PERSONNE WHERE ROLEPERSONNE = 3'
                     con.query(query3, (err3, rows3) => {
-                        if (err3) throw err3;
+                        if (err3) {
+                            res.redirect("/errors");
+                        }
                         let query4 = "UPDATE ACCEPTE SET IDPERSONNE=" + rows3[0].IDPERSONNE + " WHERE IDBILLET = " + req.params.id + ""
                         con.query(query4, (err4, rows4) => {
-                            if (err4) throw err4;
+                            if (err4) {
+                                res.redirect("/errors");
+                            }
                             red.redirect("/billets")
                         })
                     })
@@ -73,8 +99,7 @@ router.post("/refus/:id", function (req, res) {
     }
 })
 
-
-router.post("/ajout", function (req, res) {
+router.post("/ajoutcomm", function (req, res) {
     var d2 = new Date();
     let dateY2 = d2.getUTCFullYear()
     let dateM2 = d2.getUTCMonth() + 1
@@ -85,7 +110,27 @@ router.post("/ajout", function (req, res) {
     let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
     let queryAjout = "INSERT INTO COMMENTAIRE(IDBILLET, TITRECOMMENTAIRE, LIBELLECOMMENTAIRE, DATECOMMENTAIRE) VALUES ('" + req.body.idbilletajout + "','" + req.body.titrecommentaire + "','" + req.body.libellecommentaire + "','" + dateC2 + "') "
     con.query(queryAjout, (err, rows) => {
-        if (err) throw err;
+        if (err){
+			res.redirect("/errors");
+		}
+        res.redirect('/billet/' + req.body.idbilletajout)
+    })
+});
+
+router.post("/ajoutinter", function (req, res) {
+    var d2 = new Date();
+    let dateY2 = d2.getUTCFullYear()
+    let dateM2 = d2.getUTCMonth() + 1
+    let dateD2 = d2.getDate()
+    if (dateM2 < 10) {
+        dateM2 = '0' + dateM2;
+    }
+    let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
+    let queryAjout = "INSERT INTO INTERVENTION(IDBILLET, DESCRIPTIONINTERVENTION, DATEINTERVENTION) VALUES ('" + req.body.idbilletajout + "','" + req.body.description + "','" + dateC2 + "') "
+    con.query(queryAjout, (err, rows) => {
+        if (err) {
+			res.redirect("/errors");
+		}
         res.redirect('/billet/' + req.body.idbilletajout)
     })
 });
@@ -99,6 +144,8 @@ router.post("/ajoutDateFin", function (req, res) {
     })
     
 });
+
+
 
 
 module.exports = router;

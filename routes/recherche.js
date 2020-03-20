@@ -16,7 +16,9 @@ router.post("/", function (req, res) {
 		let query = "SELECT * FROM BILLET b JOIN PERSONNE p on p.IDPERSONNE = b.IDPERSONNE  WHERE p.IDPERSONNE = " + req.session.idPersonne + " && " + type + " like ?";
 		let recherche = '%' + req.body.rechercheBillet.replace(/\//g, "-") + '%'
 		con.query(query, recherche, (err, rows) => {
-			if (err) res.redirect("/errors");
+			if (err) {
+				res.redirect("/errors");
+			}
 			res.render('recherche', { 'billets': rows, pseudo: req.session.pseudo, role : req.session.role, prenom : req.session.prenom, nom: req.session.nom});
 		});
 	}

@@ -11,7 +11,9 @@ router.get('/', function (req, res, next) {
     });
   let query = 'SELECT * FROM PERSONNE';
   con.query(query, (err, rows) => {
-    if (err) throw err;
+    if (err){
+			res.redirect("/errors");
+		}
     res.render('index', { 'personnes': rows });
   });
 });
