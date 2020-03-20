@@ -34,13 +34,15 @@ router.get('/:id', function (req, res, next) {
 
 router.post("/end/:id", function (req, res) {
     if (req.body.end == "end") {
-        let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " + req.params.id
-        con.query(query, (err, rows) => {
-            if (err){
-                res.redirect("/errors");
-            }
-            res.redirect("/billets")
-        })
+        if (typeof req.params.id != undefined) {
+            let query = "UPDATE BILLET SET ETATBILLET = 2 WHERE IDBILLET = " + req.params.id
+            con.query(query, (err, rows) => {
+                if (err){
+                    res.redirect("/errors");
+                }
+                res.redirect("/billets")
+            })
+        }
     }
 })
 

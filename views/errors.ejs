@@ -3,10 +3,11 @@
 <% include layout/head %>
 
 <body>
-    <%- include('layout/navbar', {pseudo: pseudo, role: role }) %>
     <div class="center">
         <h1><i class="large red-text text-lighten-1 material-icons">highlight_off</i></h1>
         <h3 class="red-text text-lighten-1">Une erreur est survenue....</h3>
+        <div class="divider"></div>
+        <h6><a href="/" class="red-text text-lighten-1">Retourner à l'écran d'accueil</a></h6>
     </div>
 
     <% include layout/script %>
