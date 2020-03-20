@@ -138,8 +138,8 @@ router.post("/ajoutinter", function (req, res) {
             dateM2 = '0' + dateM2;
         }
         let dateC2 = '' + dateY2 + '-' + dateM2 + '-' + dateD2
-        let queryAjout = "INSERT INTO INTERVENTION(IDBILLET, DESCRIPTIONINTERVENTION, DATEINTERVENTION) VALUES ('" + req.body.idbilletajout + "','" + req.body.description + "','" + dateC2 + "') "
-        con.query(queryAjout, (err, rows) => {
+        let queryAjout = "INSERT INTO INTERVENTION(IDBILLET, DESCRIPTIONINTERVENTION, DATEINTERVENTION) VALUES ('" + req.body.idbilletajout + "',?,'" + dateC2 + "') "
+        con.query(queryAjout,req.body.description, (err, rows) => {
             if (err) {
                 res.redirect("/errors");
             }
