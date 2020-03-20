@@ -8,19 +8,25 @@ router.get('/:id', function (req, res, next) {
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
     let query3 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
-    con.query(query, req.params.id, (err, rows) => {
+    let query4 = 'SELECT * FROM ACCEPTE WHERE IDBILLET = ?'
+    con.query(query, idbill, (err, rows) => {
         if (err) {
 			res.redirect("/errors");
 		}
-        con.query(query2, req.params.id, (err2, rows2) => {
+        con.query(query2, idbill, (err2, rows2) => {
             if (err2) {
                 res.redirect("/errors");
             }
-            con.query(query3, req.params.id, (err3, rows3) => {
+            con.query(query3, idbill, (err3, rows3) => {
                 if (err3) {
                     res.redirect("/errors");
                 }
-                res.render('billet', { 'billet': rows, 'comms': rows2, 'inters':rows3, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+                con.query(query4, idbill, (err4, rows4) => {
+                    if (err4) {
+                        res.redirect("/errors");
+                    }
+                    res.render('billet', { 'billet': rows, 'comms': rows2, 'inters':rows3, 'accepte':rows4, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+                });
             });
         });
     });
@@ -41,7 +47,9 @@ router.post("/end/:id", function (req, res) {
 router.post("/refus/:id", function (req, res) {
     if (req.body.refus == "refus") {
         //Ici, incrémentation du nombre de redirection du billet
-        let queryStart = "SELECT * FROM BILLET WHERE IDBILLET = " + req.params.id + ";"
+        let queryStart = "SELECT *"
+            queryStart +=" FROM BILLET"
+            queryStart +=" WHERE IDBILLET = " + req.params.id + ";"
         con.query(queryStart, (errStart, rowsStart) => {
             if (errStart) {
                 res.redirect("/errors");
@@ -125,6 +133,15 @@ router.post("/ajoutinter", function (req, res) {
 		}
         res.redirect('/billet/' + req.body.idbilletajout)
     })
+});
+
+router.post("/modifDateFin", function (req, res) {
+    let query = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ?"
+    con.query(query,[req.body.dateFin,req.body.idBillet], (err, rows) => {
+        if (err) throw err;
+        res.redirect('/billet/'+req.body.idBillet);
+    })
+    
 });
 
 

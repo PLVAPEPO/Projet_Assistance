@@ -13,7 +13,7 @@ router.post("/", function (req, res) {
 	}
 	else {
 		let type = '' + req.body.typeRechercheBillet + ''
-		let query = "SELECT * FROM BILLET WHERE " + type + " like ?";
+		let query = "SELECT * FROM BILLET b JOIN PERSONNE p on p.IDPERSONNE = b.IDPERSONNE  WHERE p.IDPERSONNE = " + req.session.idPersonne + " && " + type + " like ?";
 		let recherche = '%' + req.body.rechercheBillet.replace(/\//g, "-") + '%'
 		con.query(query, recherche, (err, rows) => {
 			if (err) {
