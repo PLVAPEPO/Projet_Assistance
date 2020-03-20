@@ -7,8 +7,8 @@ router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
-    let query4 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
-    let query3 = 'SELECT * FROM ACCEPTE WHERE IDBILLET = ?'
+    let query3 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
+    let query4 = 'SELECT * FROM ACCEPTE WHERE IDBILLET = ?'
     con.query(query, idbill, (err, rows) => {
         if (err) {
 			res.redirect("/errors");
@@ -135,12 +135,11 @@ router.post("/ajoutinter", function (req, res) {
     })
 });
 
-router.post("/ajoutDateFin", function (req, res) {
+router.post("/modifDateFin", function (req, res) {
     let query = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ?"
-    res.json(req.body.dateFin);
-    con.query(query,req.body.dateFin,req.body.idBillet, (err, rows) => {
+    con.query(query,[req.body.dateFin,req.body.idBillet], (err, rows) => {
         if (err) throw err;
-        res.redirect('/billet/' + req.body.idbilletajout)
+        res.redirect('/billet/'+req.body.idBillet);
     })
     
 });
