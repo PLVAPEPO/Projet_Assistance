@@ -3,7 +3,6 @@ $(document).ready(function () {
 });
 
 
-
 function toggleDisp(tags){
     let arrayTags = ['modifDate','formDate','validDate','cancelDate','pDate']
     arrayTags.forEach((tag)=>{
@@ -28,3 +27,4 @@ function confirmForm(){
     let formDate = document.querySelector('#formDate');
     formDate.submit();
 }
+

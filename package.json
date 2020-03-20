@@ -6,12 +6,14 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "^4.16.4",
+    "express-flash": "0.0.2",
     "express-session": "^1.17.0",
     "fs": "0.0.1-security",
     "helmet": "^3.21.3",
@@ -25,6 +27,7 @@
     "node": "^13.10.1",
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "req-flash": "0.0.3"
   }
 }
