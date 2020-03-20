@@ -7,11 +7,15 @@ router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
-    con.query(query, req.params.id, (err, rows) => {
+    let query3 = 'SELECT * FROM ACCEPTE WHERE IDBILLET = ?'
+    con.query(query, idbill, (err, rows) => {
         if (err) throw err;
-        con.query(query2, req.params.id, (err2, rows2) => {
+        con.query(query2, idbill, (err2, rows2) => {
             if (err2) throw err2;
-            res.render('billet', { 'billet': rows, 'comms': rows2, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+            con.query(query3, idbill, (err3, rows3) => {
+                if (err3) throw err3
+                res.render('billet', { 'billet': rows,'comms': rows2, 'accepte': rows3, pseudo: req.session.pseudo, role: req.session.role, prenom: req.session.prenom, nom: req.session.nom, idpers: req.session.idPersonne });
+            })
         });
     });
 });
@@ -29,7 +33,9 @@ router.post("/end/:id", function (req, res) {
 router.post("/refus/:id", function (req, res) {
     if (req.body.refus == "refus") {
         //Ici, incrémentation du nombre de redirection du billet
-        let queryStart = "SELECT * FROM BILLET WHERE IDBILLET = " + req.params.id + ";"
+        let queryStart = "SELECT *"
+            queryStart +=" FROM BILLET"
+            queryStart +=" WHERE IDBILLET = " + req.params.id + ";"
         con.query(queryStart, (errStart, rowsStart) => {
             if (errStart) throw errStart;
             let queriesNb2 = "UPDATE BILLET SET NBREDIRECTIONBILLET = (NBREDIRECTIONBILLET+1) WHERE IDBILLET =" + req.params.id + ";"
@@ -82,6 +88,16 @@ router.post("/ajout", function (req, res) {
         if (err) throw err;
         res.redirect('/billet/' + req.body.idbilletajout)
     })
+});
+
+router.post("/ajoutDateFin", function (req, res) {
+    let query = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ?"
+    res.json(req.body.dateFin);
+    con.query(query,req.body.dateFin,req.body.idBillet, (err, rows) => {
+        if (err) throw err;
+        res.redirect('/billet/' + req.body.idbilletajout)
+    })
+    
 });
 
 

@@ -41,6 +41,7 @@ router.post("/", function (req, res) {
 			querys += ' GROUP BY p.IDPERSONNE,p.NOMPERSONNE'
 			querys += ' ORDER BY COUNT(a.IDBILLET) ASC LIMIT 1'
 		
+			//Requete pour phpmyadmin
 			// SELECT DISTINCT p.IDPERSONNE,p.NOMPERSONNE, COUNT(a.IDBILLET)
 			//    FROM PERSONNE p
 			//    JOIN ACCEPTE a on a.IDPERSONNE=p.idpersonne
@@ -61,7 +62,7 @@ router.post("/", function (req, res) {
 				'MESSAGEBILLET': req.body.messageBillet,
 				'IDORDINATEUR': req.body.posteOrdinateur,
 				'PIECEJOINTEBILLET': '/images/'+ req.body.piecejointebillet,
-				'ETATBILLET': 0,
+				'ETATBILLET': 1,
 				'NBREDIRECTIONBILLET':0,
 				'DATECREATIONBILLET': dateC,
 			},

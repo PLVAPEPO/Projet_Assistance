@@ -33,11 +33,11 @@
 
       <th>Etat</th>
       <% if (billet[0].ETATBILLET == 0) { %>
-      <td class="red center">Non affecté</td>
+      <td colspan="2" class="red center">Non affecté</td>
       <% } else if (billet[0].ETATBILLET == 1) { %>
-      <td class="white center">Affecté</td>
+      <td colspan="2" class="white center">Affecté</td>
       <% } else if (billet[0].ETATBILLET == 2) { %>
-      <td class="green center">Terminé</td>
+      <td colspan="2" class="green center">Terminé</td>
       <% } %>
     </tr>
     <tr>
@@ -45,7 +45,7 @@
       <td><%= billet[0].NOMPROBLEME %></td>
 
       <th>Date de création</th>
-      <td>
+      <td colspan="2">
         <%= billet[0].DATECREATIONBILLET.getDate()%>/<%= billet[0].DATECREATIONBILLET.getUTCMonth()+1%>/<%= billet[0].DATECREATIONBILLET.getUTCFullYear()%>
       </td>
     </tr>
@@ -58,18 +58,56 @@
       <td><%= billet[0].URGENCEBILLET %>/5</td>
       <% } %>
 
-      <th>Pièce Jointe</th>
-      <% if (!billet[0].URGENCEBILLET) { %>
-      <td>Pas de pièce jointe</td>
-      <% } else  {%>
-      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
-      <td>EN COURS DE REALISATION</td>
-      <% } %>
+      <th>Date de fin prévue</th>
+      <% if(!accepte[0].DATEFERMETUREBILLET) {%>
+        <% 
+          let dateActu = new Date(); 
+          let annee = dateActu.getUTCFullYear();
+          let mois = dateActu.getUTCMonth()+1;
+          let jour = dateActu.getDate();
+          if(mois < 10){
+            mois = '0'+mois;
+          }
+        %>
+        <td>
+          <p id="pDate">Pas de date prévue</p>
+          <form class="undisplay" id="formDate" action="/billet/ajoutDateFin" method="POST">
+            <input type="hidden" id="idBillet" name="idBillet" value="<%=billet[0].IDBILLET%>">
+            <input type="date" id="dateFin" name="dateFin" value="<%= annee %>-<%= mois %>-<%= jour %>" min="<%= annee %>-<%= '0'+mois %>-<%= jour %>" required>
+            <button type="submit" id="subFormDate" class="undisplay"></button>
+          </form>
+        </td>
+        <% if (role != 1) {%>
+          <td>
+            <button class="waves-effect waves-light btn indigo" id="modifDate" onclick="toggleDisp()">
+              <i class="material-icons left">add_box</i>Modifier
+            </button>
+            <button class="waves-effect waves-light btn green undisplay" id="validDate" onclick="confirmForm()">
+              <i class="material-icons left">done</i>Valider
+            </button>
+            <button class="waves-effect waves-light btn red undisplay" id="cancelDate" onclick="toggleDisp()">
+              <i class="material-icons left">close</i>Annuler
+            </button>
+          </td>
+      <%}} else {%>
+        <td><%= accepte[0].DATEFERMETUREBILLET.getDate()%>/<%= accepte[0].DATEFERMETUREBILLET.getUTCMonth()+1%>/<%= accepte[0].DATEFERMETUREBILLET.getUTCFullYear()%></td>
+      <%}%>
+      
+
+      
     </tr>
 
     <tr>
       <th>Description</th>
-      <td><%= billet[0].MESSAGEBILLET%></td>
+      <td><%= billet[0].MESSAGEBILLET %></td>
+
+      <th>Pièce Jointe</th>
+      <% if (!billet[0].URGENCEBILLET) { %>
+      <td colspan="2">Pas de pièce jointe</td>
+      <% } else  {%>
+      <!-- <td><%= billet[0].PIECEJOINTEBILLET%></td> -->
+      <td colspan="2">EN COURS DE REALISATION</td>
+      <% } %>
     </tr>
   </table>
 
@@ -104,6 +142,7 @@
     <% } %>
   </ul>
   <% include layout/script %>
+
 </body>
 
 </html>

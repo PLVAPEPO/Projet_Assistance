@@ -27,13 +27,6 @@ app.use(session({
   cookie: { secure: false }
 }))
 
-/*var jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = (new JSDOM('')).window;
-global.document = document;
-var $ = require("jquery")(window);*/
-
 
 var indexRouter = require('./routes/index');
 var billetsRouter = require('./routes/billets');
@@ -98,18 +91,6 @@ var logout = function (req, res, next) {
   })
 }
 
-var PrisEnCharge = function(req, res, next) {
-  //let query = 'Update BILLET set ETATBILLET =\'1\' where idbillet =? '
-  // console.log(rows[0].idbillet)
-//   con.query(query,res.rows. , (err, rows) => {
-//     if (err) throw err;
-//     console.log(rows[0].idbillet)
-//     next();
-    
-// });
-res.redirect('/billets');
-
-}
 
 app.use('/login', login, billetsRouter);
 app.use('/logout', logout, indexRouter);
