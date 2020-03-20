@@ -3,10 +3,15 @@ var express = require('express');
 var router = express.Router();
 var idbill;
 var msgArray;
+var ok;
 
 router.get('/:id', function (req, res, next) {
     idbill = req.params.id;
     msgArray = req.session.msg;
+    if(ok == true){
+        msgArray = [];
+        ok =false;
+    }
     let query = 'SELECT * FROM BILLET JOIN PROBLEME ON BILLET.IDPROBLEME = PROBLEME.IDPROBLEME WHERE BILLET.IDBILLET = ?';
     let query2 = 'SELECT * FROM COMMENTAIRE C JOIN BILLET B ON C.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY C.IDCOMMENTAIRE DESC'
     let query3 = 'SELECT * FROM INTERVENTION I JOIN BILLET B ON I.IDBILLET = B.IDBILLET WHERE B.IDBILLET = ? ORDER BY DATEINTERVENTION DESC, IDINTERVENTION DESC'
@@ -169,6 +174,7 @@ router.post("/modifDateFin", function (req, res) {
         let query = "UPDATE ACCEPTE SET DATEFERMETUREBILLET = ? WHERE IDBILLET = ?"
         con.query(query,[req.body.dateFin,req.body.idBillet], (err, rows) => {
             if (err) throw err;
+            ok = true;
             req.session.msg = ['success','Modification appliqué'];
             res.redirect('/billet/'+req.body.idBillet);
         })
